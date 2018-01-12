@@ -18,8 +18,8 @@
 	<ul style="list-style-type: none">
 		<li><input type="text" id="nachname" name="register[nachname]" placeholder="Nachname"></li>
 		<li><input type="text" id="vorname" name="register[vorname]" placeholder="Vorname"></li>
-		<li><input type="text" id="strasse" name="register[strasse]" placeholder="Strasse"> <input type="text" id="hausnr" name="register[hausnr]" placeholder="Hausnummer"></li>
-		<li><input type="text" id="plz" name="register[plz]" placeholder="Postleitzahl"> <input type="text" id="ort" name="register[ort]" placeholder="Ort"></li>
+		<li><input type="text" id="strasse" name="register[strasse]" placeholder="Strasse"> <input type="text" id="hausnummer" name="register[hausnummer]" placeholder="Hausnummer"></li>
+		<li><input type="text" id="plz" name="register[postleitzahl]" placeholder="Postleitzahl"> <input type="text" id="ort" name="register[ort]" placeholder="Ort"></li>
 		<li><input type="text" id="telNr" name="register[telefon]" placeholder="Telefonnummer"></li>
 		<li><input type="email" id="email" name="register[email]" placeholder="Mailadresse"></li>
 		<li><input type="date" id="gebdatum" name="register[geburtsdatum]"></li>

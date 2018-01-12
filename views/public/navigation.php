@@ -4,13 +4,11 @@
 		<!--<?php echo '<li><a href="' . DIR . 'mainpage/index/' . Session::get('csrf_token') . '">Willkommen</a></li>'; ?>-->
 		<li><a href="<?= DIR?>mainpage/angebot"> Angebot </a>
 			<ul>
-				<li><a href="<?= DIR?>mainpage/angebot/Kurs1">Fu&szlig;ball</a></li>
-				<li><a href="<?= DIR?>mainpage/angebot/Kurs2">Bogenschie&szlig;en</a></li>
-				<li><a href="<?= DIR?>mainpage/angebot/Kurs3">Wandern</a></li>
-				<li><a href="<?= DIR?>mainpage/angebot/Kurs4">Basketball</a></li>
-				<li><a href="<?= DIR?>mainpage/angebot/Kurs5">Tennis</a></li>
-				<li><a href="<?= DIR?>mainpage/angebot/Kurs6">Klettern</a></li>
-				<li><a href="<?= DIR?>mainpage/angebot/Kurs7">Yoga</a></li>
+			<?php
+                foreach ($data as $sportart) {
+                    echo '<li><a href="' . DIR . 'mainpage/angebot/' . $sportart['sportart_id'] . '">'. $sportart['sportart'] . '</a></li>';
+                }
+            ?>
 			</ul>
 		</li>
 		<li><a href="<?= DIR?>mainpage/impressum">&Uuml;ber uns</a>

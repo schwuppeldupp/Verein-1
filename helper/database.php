@@ -32,14 +32,18 @@ class Database extends PDO {
      * insert method
      * @param  string $table Name der Tabelle
      * @param  array $data  array of columns and values
+     * @param  string $dublicate Name der Spalte für Abfrage mit "ON DUPLICATE KEY UPDATE"
+     * Spalte muss einen Schlüssel enthalten! Wenn der Schlüsselwert bereits enthalten ist,
+     * wird der Eintrag nicht geändert
      */
-    public function insert($table, $data) {
+    public function insert($table, $data, $dublicate = '') {
         ksort($data);
         
         $fieldNames = implode(',', array_keys($data));
         $fieldValues = ':' . implode(', :', array_keys($data));
         
-        $stmt = $this->prepare("INSERT INTO $table ($fieldNames) VALUES ($fieldValues)");
+        //$stmt = $this->prepare("INSERT INTO $table ($fieldNames) VALUES ($fieldValues)");
+        $stmt = $this->prepare("INSERT INTO $table ($fieldNames) VALUES ($fieldValues)" . ($dublicate == '' ? "" : " ON DUPLICATE KEY UPDATE $dublicate = $dublicate"));
         
         foreach ($data as $key => $value) {
             $stmt->bindValue(":$key", $value);

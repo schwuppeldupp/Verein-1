@@ -14,13 +14,12 @@ class Mainpage extends Controller
     public function index()
     {
         Session::set('csrf_token', uniqid('', true));
-        $data['title'] = '&Uuml;bersicht';
-        
-        $data['vorstand'] = $this->_model->getVorstand();
-        
+        $data['title'] = '&Uuml;bersicht';       
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
+        $data = $this->_model->getSportarten();
         $this->_view->render('public/navigation', $data);
+        $data['vorstand'] = $this->_model->getVorstand();
         $this->_view->render('public/content', $data);
         $this->_view->render('footer');
     }

@@ -26,8 +26,15 @@ class Mitglied extends Controller
             $this->_view->render('member/login', $data);
             $this->_view->render('member/navigation', $data);
             $this->_view->render('member/content', $data);
-            //test
-            echo end(explode("/", $_GET['url'])) . '</br>';
+            
+            //for testing
+            echo end(explode("/", $_GET['url'])) . '</br></br>';
+            foreach ($this->_model->joinMitglieder() as $user) {
+                echo $user['vorname'] . ' ' . $user['nachname']. '</br>';
+                echo $user['strasse'] . ' ' . $user['hausnummer']. '</br>';
+                echo $user['postleitzahl'] . ' ' . $user['ort']. '</br>';
+                echo '</br>';
+            }
             $this->_view->render('footer');
         }
     }
@@ -81,7 +88,7 @@ class Mitglied extends Controller
     
     /**
      * Rendert Seite fuer Registration
-     * Nach erfolgreicher Registrierung wird Session beendet.
+     * Nach erfolgreicher bzw. erfolgloser Registrierung wird Session beendet.
      */
     public function registration()
     {
@@ -110,6 +117,17 @@ class Mitglied extends Controller
                     $user['passwort'] =  $this->_pw->hash($user['passwort']);
                     if ($this->_pw->verify(array_pop($user), $user['passwort'])) {
                         $user['rang'] = 'mitglied';
+                        
+                        //Adresse schreiben
+                        $adr = $this->_model->getAdresse($user);
+                        if ($adr[0] == false) { //wenn Adresse nicht vorhanden, dann schreiben
+                            $this->_model->setAdresse($user);
+                            $adr = $this->_model->getAdresseID($user);
+                        }                       
+                        $this->_model->setPostleitzahl($user);
+                        $user['adresse_id'] = $adr[0]['adresse_id'];
+                         
+                        //Mitgliedsdaten schreiben
                         $this->_model->setRegistration($user); 
                         Session::destroy(); 
                         Session::set('csrf_token', uniqid('', true));                    
@@ -168,12 +186,12 @@ class Mitglied extends Controller
             if ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'vorstand') {
                 Session::set('name', $user[0]['vorname'] . " " .$user[0]['nachname']);
                 Session::set('rang', 'Vorstand');
-                header("Location: " . DIR . "mitglied/index/" . Session::get('csrf_token'));
+                header("Location: " . DIR . "vorstand/index/" . Session::get('csrf_token'));
             }
             elseif ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'admin') {
                 Session::set('name', 'Admin');
                 Session::set('rang', 'Admin');
-                header("Location: " . DIR . "mitglied/index/" . Session::get('csrf_token'));
+                header("Location: " . DIR . "admin/index/" . Session::get('csrf_token'));
             }
             elseif ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort'])) {
                 
