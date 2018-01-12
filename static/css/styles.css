@@ -1,0 +1,101 @@
+/*seitenübergreifende Formatierung */
+body {background-color: #996633;}
+
+#seite {width:1300px;  margin:0px auto; background:#669900; overflow:hidden; border-radius: 5px;}
+
+#kopfbereich {width:1300px;  margin:0px auto; background:#669900;}
+
+#titel {font-family:"Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif; font-size:25px; color:black; background-image: url('../img/sports.png');background-repeat: no-repeat; background-position: right;
+	margin-right: 20%;padding: 5px;margin-top: 0px; padding-bottom:30px;} 
+a {text-decoration: none}
+
+#anmeldung{cursor: pointer;float :left;text-align: right; position: absolute; top: 0px; width:1260px; margin-top: 5px; margin-right: 12px; margin-left: 12px ; padding: 5px;}
+#anmeldung > div{font-weight: bold;}
+#message{font-weight: bold;font-size: 20px;}
+#Abutton{background-color:maroon; color: white; border: none; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25); border-radius: 5px;}
+#name{background-color: #CCFFCC; border: none}
+#passwort{background-color: #CCFFCC; border: none}
+
+#navigation  > ul > li  {float: left; list-style: none;}
+#navigation > ul {float: left; margin-bottom: 5px; margin-left: 12px;  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25); background-color:maroon; border-radius: 5px;}
+#navigation a:link    {color:white; }
+#navigation a:visited {color:white;}
+#navigation a:active  {color:blue; }
+#navigation a:hover   {color:white; background:gray;}
+#navigation a:focus   {color:white;}
+#navigation > ul  a {float:left; padding: 6px 88px; }
+#navigation > ul > li > ul {display: none;}
+#navigation > ul > li:hover > ul {display: block; top: 215px; position: absolute; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);	background-color: maroon;border-radius: 5px;}
+#navigation > ul > li > ul >li {position: relative; list-style: none;}
+
+/*index Formatierung*/	
+#seiteninhalt-index {margin-left: calc(4%)}
+ 
+ 
+ 
+/*regsitrierung Formatierung*/
+
+#beschriftung {float:left; }
+#beschriftung > ol > li { height: 31px}
+#registrierung {float:left;}
+#registrierung > ul > li { height: 31px}
+
+
+/*angebot Fomatierung*/
+#seiteninhalt-angebot{background:#669900; height: auto; margin: 10px}
+article.infobox section {
+    position: absolute;
+    display: block;
+    width: 1280px;
+    height: auto;
+    top: 300px;
+    left: 118px;
+    background-color: #669900}
+article.infobox section h2 {
+    position: absolute;
+    left: 0;
+    top: -30px;
+    width: 185.7px;
+    height: 50px;
+    font-family: Verdana;
+    font-size: 15px;
+    margin: 0;
+    background-color: #669900;
+    
+    border: solid maroon;
+    border-width: 1px 1px 0 0;
+    z-index: 1}
+article.infobox section:nth-child(2) h2 {
+    left: 185.7px;
+    z-index: 0}
+article.infobox section:nth-child(3) h2 {
+    left: 371.4px;
+    z-index: -1}
+article.infobox section:nth-child(4) h2 {
+    left: 557.1px;
+    z-index: -2}
+article.infobox section:nth-child(5) h2 {
+    left: 742.8px;
+    z-index: -3}
+article.infobox section:nth-child(6) h2 {
+    left: 928.5px;
+    z-index: -4}
+article.infobox section:nth-child(7) h2 {
+    left: 1094.2px;
+    z-index: -5}
+article.infobox section h2 a {
+    display: block;
+    margin: 5px 0 0 0;
+    text-align: center;
+    text-decoration: none;
+    color: maroon}
+article.infobox section:target, article.infobox section:target h2 {
+    color: white;
+    background-color: maroon;
+    padding-left:20px;
+    z-index: 1}
+article.infobox section:target h2 a {
+    color: white}
+
+
+
