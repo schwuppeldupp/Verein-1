@@ -7,7 +7,7 @@
 			</thead>
 			<tbody>
 			<?php
-			foreach ( $data['mitglieder'] as $user) {
+			foreach ($data['mitglieder'] as $user) {
 			    echo '<tr><th>' . $user['nachname'] . '</th><th>' . $user['vorname'] . '</th><th>' . date("d.m.Y", strtotime($user['geburtsdatum'])) . '</th><th>' . $user['strasse'] . '</th><th>' . $user['hausnummer'] . '</th><th>' . $user['postleitzahl'] . '</th><th>' . $user['ort'] . '</th><th>' . $user['telefon'] . '</th><th>' . $user['email'] . '</th></tr>';
             }
             ?>

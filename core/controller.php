@@ -4,10 +4,12 @@ class Controller {
     
     protected $_view;
     protected $_model;
+    protected $_common;
     protected $_pw;
     
     function __construct() {
         $this->_view = new View();
+        $this->_common = new Common();
         $this->_pw = new Password();
         
         $name = get_class($this);

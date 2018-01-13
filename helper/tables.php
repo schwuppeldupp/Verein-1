@@ -61,8 +61,8 @@ class Tables {
                     `maxteilnehmer` INT NOT NULL,
                     `mitglied_id` INT(10) NOT NULL,
                     `sportart_id` INT(10) NOT NULL,
-                    `beginn` DATE NOT NULL,
-                    `ende` DATE NOT NULL,
+                    `beginn` DATETIME NOT NULL,
+                    `ende` DATETIME NOT NULL,
                     `beschreibung` TEXT(1000)
                     )
                     ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci";

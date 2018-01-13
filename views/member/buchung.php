@@ -1,5 +1,5 @@
 <div id="seiteninhalt-index">
-<h2>Sportarten</h2>
+<h2>Buchungen</h2>
 	<div id="sportarten">
 		<table>
 			<thead>

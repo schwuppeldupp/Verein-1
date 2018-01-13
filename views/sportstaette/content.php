@@ -19,17 +19,20 @@
 		</form>
 	</div>
 	<div>
+	<form id="sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/2/<?= Session::get('csrf_token') ?>" method="POST">
 		<table>
 			<thead>
-				<tr><th>Sportarten</th></tr>
+				<tr><th>Sportarten</th><th>&Auml;ndern</th><th>L&ouml;schen</th></tr>
 			</thead>
 			<tbody>
 			<?php
                 foreach ($data as $sportart) {
-                    echo '<tr><th>' . $sportart['bezeichnung'] . '</th></tr>';
+                    echo '<tr><th>' . $sportart['bezeichnung'] . '</th><th><input type="submit" name="c_' . $sportart['sportart_id'] . '" value="&#8635;"></th><th><input type="submit" name="d_' . $sportart['sportart_id'] . '" value="&#10006;"></th></tr>';
                 }
             ?>
 			</tbody>
 		</table>
+		<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
+	</form>
 	</div>
 </div>

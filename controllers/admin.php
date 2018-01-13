@@ -25,8 +25,8 @@ class Admin extends Controller
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
             $this->_view->render('admin/navigation', $data);
-            $data['vorstand'] = $this->_model->getAllVorstaende();
-            $data['mitglieder'] = $this->_model->joinMitglieder();
+            $data['vorstand'] = $this->_common->getVorstand();
+            $data['mitglieder'] = $this->_common->joinMitglieder();
             $this->_view->render('admin/content', $data);
             $this->_view->render('footer');
         }

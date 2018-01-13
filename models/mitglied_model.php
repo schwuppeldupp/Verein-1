@@ -95,33 +95,8 @@ class Mitglied_Model extends Model {
      * @return array Liste des Mitglieds
      */
     public function setPostleitzahl($data) {
-        $this->_db->insert('postleitzahl', array('postleitzahl' => $data['postleitzahl'], 'ort' => $data['ort']), 'postleitzahl');
+        $this->_db->insert('postleitzahl', array('postleitzahl' => $data['postleitzahl'], 'ort' => $data['ort']), 'postleitzahl = postleitzahl');
     }
-    
-    /**
-     * Gibt alle Vorstaende zurueck.
-     * @return array Liste mit Vorstaenden
-     */
-    public function getVorstand() {
-        return $this->_db->select('SELECT * FROM mitglied WHERE rang = :rang', array('rang' => 'vorstand'));
-    }
-    
-    /**
-     * Gibt alle Vorstaende zurück.
-     * @return array Liste der Vorstaende
-     */
-    public function getAllVorstaende() {
-        return $this->_db->select('SELECT * FROM mitglied WHERE rang = :rang', array('rang' =>  'vorstand'));
-    }
-    
-    /**
-     * Gibt alle Sportarten zurueck.
-     * @return array Liste mit Sportarten
-     */
-    public function getSportarten() {
-        return $this->_db->select('SELECT * FROM sportarten ORDER BY sportart ASC');
-    }
-    
 }
 
 ?>

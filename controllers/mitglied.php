@@ -25,16 +25,16 @@ class Mitglied extends Controller
             $data['title'] = 'Mitgliederbereich';
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_model->getSportarten();
+            $data = $this->_common->getSportarten();
             switch (array_pop($url)) {
                 case 'vorstand':
                     $this->_view->render('vorstand/navigation', $data);
-                    $data['mitglieder'] = $this->_model->joinMitglieder();
+                    $data['mitglieder'] = $this->_common->joinMitglieder();
                     $this->_view->render('vorstand/content', $data);                                 
                     break;
                 default:
                     $this->_view->render('member/navigation', $data);
-                    $data['vorstand'] = $this->_model->getVorstand();
+                    $data['vorstand'] = $this->_common->getVorstand();
                     $this->_view->render('member/content', $data);
                     break;
             }           
@@ -59,12 +59,12 @@ class Mitglied extends Controller
             
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_model->getSportarten();
+            $data = $this->_common->getSportarten();
             $this->_view->render('member/navigation', $data);
             
             switch (array_pop($url)) {
                 case 'vorstand':
-                    $data['vorstand'] = $this->_model->getVorstand();
+                    $data['vorstand'] = $this->_common->getVorstand();
                     $this->_view->render('public/vorstand', $data);
                     break;
                 case 'mitglieder':
@@ -95,10 +95,10 @@ class Mitglied extends Controller
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
             
-            $data['vorstand'] = $this->_model->getAllVorstaende();
+            $data['vorstand'] = $this->_common->getVorstand();
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_model->getSportarten();
+            $data = $this->_common->getSportarten();
             $this->_view->render('vorstand/navigation', $data);
             //$this->_view->render('vorstand/content', $data);
             $this->_view->render('footer');
@@ -121,9 +121,9 @@ class Mitglied extends Controller
             $data['title'] = 'Buchung';
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_model->getSportarten();
+            $data = $this->_common->getSportarten();
             $this->_view->render('member/navigation', $data);
-            $this->_view->render('member/booking', $data);
+            $this->_view->render('member/buchung', $data);
             //test
             //echo end(explode("/", $_GET['url'])) . '</br>';
             $this->_view->render('footer');
@@ -143,11 +143,12 @@ class Mitglied extends Controller
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
             
-            $data['vorstand'] = $this->_model->getAllVorstaende();
+            $data['vorstand'] = $this->_common->getVorstand();
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
             $this->_view->render('vorstand/navigation', $data);
-            //$this->_view->render('vorstand/content', $data);
+            
+            $this->_view->render('vorstand/buchung', $data);
             $this->_view->render('footer');
         }
     }
