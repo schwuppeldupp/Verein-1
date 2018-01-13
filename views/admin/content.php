@@ -1,14 +1,7 @@
 <div id="seiteninhalt-index">
 <h2>Administration</h2>
-<h3>aktueller Vorstand</h3>
-<?php 
-foreach ($data['vorstand'] as $vorstand) {
-    echo '<div>' . $vorstand['vorname'] . ' ' . $vorstand['nachname'] . '</div>';
-}
-    
-?>
 <h3>Vorstand setzen</h3>
-	<form id="del_sportarten" role="form" action="<?= DIR ?>admin/vorstand/<?= Session::get('csrf_token') ?>" method="POST">
+	<form id="vorstand" role="form" action="<?= DIR ?>admin/vorstand/<?= Session::get('csrf_token') ?>" method="POST">
 		<select id="vorstand" name="vorstand">
 		<?php
 		foreach ($data['mitglieder'] as $user) {
@@ -16,7 +9,22 @@ foreach ($data['vorstand'] as $vorstand) {
         }
         ?>
 		</select>
-		<input type="submit" value="Setzen">
+		<input type="submit" value="W&auml;hlen/Abw&auml;hlen">
 		<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
 	</form>
+<h3>aktueller Vorstand</h3>
+<div>
+	<table>
+		<thead>
+			<tr><th>Vorstand</th></tr>
+		</thead>
+		<tbody>
+		<?php
+		foreach ($data['vorstand'] as $vorstand) {
+			   echo '<tr><th>' . $vorstand['vorname'] . ' ' . $vorstand['nachname'] . '</th></tr>';
+        }
+        ?>
+		</tbody>
+	</table>
+</div>
 </div>

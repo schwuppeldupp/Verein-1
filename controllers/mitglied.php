@@ -13,7 +13,8 @@ class Mitglied extends Controller
      */
     public function index()
     {        
-        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        $url = explode("/", $_GET['url']);
+        if(array_pop($url) !== Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
             header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
@@ -24,27 +25,31 @@ class Mitglied extends Controller
             $data['title'] = 'Mitgliederbereich';
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $this->_view->render('member/navigation', $data);
-            $this->_view->render('member/content', $data);
-            
-            //for testing
-            echo end(explode("/", $_GET['url'])) . '</br></br>';
-            foreach ($this->_model->joinMitglieder() as $user) {
-                echo $user['vorname'] . ' ' . $user['nachname']. '</br>';
-                echo $user['strasse'] . ' ' . $user['hausnummer']. '</br>';
-                echo $user['postleitzahl'] . ' ' . $user['ort']. '</br>';
-                echo '</br>';
-            }
+            $data = $this->_model->getSportarten();
+            switch (array_pop($url)) {
+                case 'vorstand':
+                    $this->_view->render('vorstand/navigation', $data);
+                    $data['mitglieder'] = $this->_model->joinMitglieder();
+                    $this->_view->render('vorstand/content', $data);                                 
+                    break;
+                default:
+                    $this->_view->render('member/navigation', $data);
+                    $data['vorstand'] = $this->_model->getVorstand();
+                    $this->_view->render('member/content', $data);
+                    break;
+            }           
             $this->_view->render('footer');
         }
     }
-    
+          
     /**
      * Rendert Seite fuer Impressum.
      */
     public function impressum()
     {
-        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        $url = explode("/", $_GET['url']);
+        
+        if(array_pop($url) !== Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
             header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
@@ -54,10 +59,48 @@ class Mitglied extends Controller
             
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
+            $data = $this->_model->getSportarten();
             $this->_view->render('member/navigation', $data);
-            $this->_view->render('member/content', $data);
-            //test
-            echo end(explode("/", $_GET['url'])) . '</br>';
+            
+            switch (array_pop($url)) {
+                case 'vorstand':
+                    $data['vorstand'] = $this->_model->getVorstand();
+                    $this->_view->render('public/vorstand', $data);
+                    break;
+                case 'mitglieder':
+                    $this->_view->render('member/content', $data);
+                    break;
+                case 'kontakt':
+                    $this->_view->render('member/content', $data);
+                    break;
+                default:
+                    $this->_view->render('member/content', $data);
+                    break;
+            }
+            $this->_view->render('footer');
+            
+        }
+    }
+        
+    /**
+     * Rendert Seite fuer Impressum Vorstand.
+     */ 
+    public function impressum2()
+    {
+        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+            Session::destroy();
+            Session::set('csrf_token', uniqid('', true));
+            header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
+        }
+        else {
+            Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
+            
+            $data['vorstand'] = $this->_model->getAllVorstaende();
+            $this->_view->render('header', $data);
+            $this->_view->render('member/login', $data);
+            $data = $this->_model->getSportarten();
+            $this->_view->render('vorstand/navigation', $data);
+            //$this->_view->render('vorstand/content', $data);
             $this->_view->render('footer');
         }
     }
@@ -78,10 +121,33 @@ class Mitglied extends Controller
             $data['title'] = 'Buchung';
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
+            $data = $this->_model->getSportarten();
             $this->_view->render('member/navigation', $data);
             $this->_view->render('member/booking', $data);
             //test
-            echo end(explode("/", $_GET['url'])) . '</br>';
+            //echo end(explode("/", $_GET['url'])) . '</br>';
+            $this->_view->render('footer');
+        }
+    }
+    
+    /**
+     * Rendert Seite fuer Buchung.
+     */
+    public function buchung2()
+    {
+        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+            Session::destroy();
+            Session::set('csrf_token', uniqid('', true));
+            header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
+        }
+        else {
+            Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
+            
+            $data['vorstand'] = $this->_model->getAllVorstaende();
+            $this->_view->render('header', $data);
+            $this->_view->render('member/login', $data);
+            $this->_view->render('vorstand/navigation', $data);
+            //$this->_view->render('vorstand/content', $data);
             $this->_view->render('footer');
         }
     }
@@ -186,7 +252,7 @@ class Mitglied extends Controller
             if ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'vorstand') {
                 Session::set('name', $user[0]['vorname'] . " " .$user[0]['nachname']);
                 Session::set('rang', 'Vorstand');
-                header("Location: " . DIR . "vorstand/index/" . Session::get('csrf_token'));
+                header("Location: " . DIR . "mitglied/index/vorstand/" . Session::get('csrf_token'));
             }
             elseif ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'admin') {
                 Session::set('name', 'Admin');

@@ -13,9 +13,9 @@
 		</li>
 		<li><a href="<?= DIR?>mainpage/impressum">&Uuml;ber uns</a>
 			<ul>
-				<li><a href="impressum/vorstand">Vorstand</a></li>
-				<li><a href="impressum/mitglieder">Mitglieder</a></li>
-				<li><a href="impressum/kontakt">Kontakt</a></li>
+				<li><a href="<?= DIR?>mainpage/impressum/vorstand">Vorstand</a></li>
+				<li><a href="<?= DIR?>mainpage/impressum/mitglieder">Mitglieder</a></li>
+				<li><a href="<?= DIR?>mainpage/impressum/kontakt">Kontakt</a></li>
 			</ul>
 		</li>
 		<?php echo '<li><a href="' . DIR . 'mainpage/register/">Registrierung</a></li>'; ?>

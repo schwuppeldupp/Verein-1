@@ -30,9 +30,12 @@ a {text-decoration: none}
 
 /*index Formatierung*/	
 #seiteninhalt-index {margin-left: calc(4%)}
- 
- 
- 
+#seiteninhalt-index > h3 {text-align: center;}
+#seiteninhalt-index > h2 {text-align: center;}
+#seiteninhalt-index > div {display: flex;} 
+#seiteninhalt-index > div > form {padding: 10px;}
+#seiteninhalt-index > form#vorstand{display: flex;justify-content: center;}
+
 /*regsitrierung Formatierung*/
 
 #beschriftung {float:left; }
@@ -97,5 +100,20 @@ article.infobox section:target, article.infobox section:target h2 {
 article.infobox section:target h2 a {
     color: white}
 
+/*table Fomatierung*/
+table, th, td {border: 1px solid black; border-collapse: collapse; padding: 0.3em; margin: auto;}
+thead {border: 2px solid black; color: white;}
 
+/* Streifen für Kopf */
+thead:nth-child(odd) > tr:nth-child(odd) {background-color: #800000;}
+/* Streifen für gerade Zeilen */
+tbody:nth-child(even) > tr:nth-child(even) {background-color: #d2cfcf;}
+/* Streifen für ungerade Zeilen */
+tbody:nth-child(even) > tr:nth-child(odd) {background-color: #fff;}
+select {width: 200px;}
+
+#save_sportarten > input#sportart {width: 193px;}
+#save_sportarten > input#submit {margin-left: 55px;}
+#save_sportarten > textarea {display: flex;}
+#del_sportarten > input {width: 85px;}
 

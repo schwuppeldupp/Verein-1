@@ -38,6 +38,7 @@ class Tables {
         return "CREATE TABLE IF NOT EXISTS `sportarten` (
                     `sportart_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                     `sportart` VARCHAR(255) NOT NULL,
+                    `beschreibung` TEXT(1000),
                     UNIQUE(sportart)
                     )
                     ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci";
@@ -48,7 +49,7 @@ class Tables {
                     `sportstaette_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
                     `bezeichnung` VARCHAR(255) NOT NULL,
                     `adresse_id` INT(10) NOT NULL,
-                    `sportart` VARCHAR(255) NOT NULL
+                    `sportart_id` INT(10) NOT NULL
                     )
                     ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci";
     }
@@ -61,7 +62,8 @@ class Tables {
                     `mitglied_id` INT(10) NOT NULL,
                     `sportart_id` INT(10) NOT NULL,
                     `beginn` DATE NOT NULL,
-                    `ende` DATE NOT NULL
+                    `ende` DATE NOT NULL,
+                    `beschreibung` TEXT(1000)
                     )
                     ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci";
     }

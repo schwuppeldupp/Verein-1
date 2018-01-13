@@ -28,12 +28,30 @@ class Mainpage extends Controller
      * Rendert Seite fuer Impressum.
      */
     public function impressum()
-    {     
+    {
+        $url = explode("/", $_GET['url']);
+        
         $data['vorstand'] = $this->_model->getVorstand();
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
+        $data = $this->_model->getSportarten();
         $this->_view->render('public/navigation', $data);
-        $this->_view->render('public/content', $data);
+        
+        switch (array_pop($url)) {
+            case 'vorstand':
+                $data['vorstand'] = $this->_model->getVorstand();
+                $this->_view->render('public/vorstand', $data);
+                break;
+            case 'mitglieder':
+                $this->_view->render('public/content', $data);
+                break;
+            case 'kontakt':
+                $this->_view->render('public/content', $data);
+                break;
+            default:
+                $this->_view->render('public/content', $data);
+                break;
+        }
         $this->_view->render('footer');
     }
 
@@ -46,6 +64,7 @@ class Mainpage extends Controller
         //$data['content_title'] = 'Registrierung';       
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
+        $data = $this->_model->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('public/registration', $data);
         $this->_view->render('footer');

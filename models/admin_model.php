@@ -47,7 +47,7 @@ class Admin_Model extends Model {
      * @return int Anzahl der geaenderten Eintraege
      */
     public function setVorstand($email) {
-        return $this->_db->update('mitglied', array('rang' =>  'vorstand'), array('email' =>  $email));
+        return $this->_db->update('mitglied', array('rang' => 'vorstand'), array('email' => $email));
     }
     
     /**
