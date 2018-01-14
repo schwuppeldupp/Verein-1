@@ -5,21 +5,23 @@ class Mainpage_Model extends Model {
     public function __construct(){
         parent::__construct();
     }
+             
+    /**
+     * Gibt einzelnes Mitglied anhand der mitglied_id zurück.
+     * @param string $mitglied_id Id des Mitglieds
+     * @return array Liste mit Daten des Mitglieds in Form von array[0][daten]
+     */
+    public function getKursleiter($mitglied_id) {
+        return $this->_db->select('SELECT * FROM mitglied WHERE mitglied_id = :mitglied_id', array('mitglied_id' =>  $mitglied_id));
+    }
     
     /**
-     * Gibt alle Vorstaende zurueck.
-     * @return array Liste mit Vorstaenden
+     * Gibt einzelne Sportart anhand der sportart_id zurück.
+     * @param string $sportart_id Id der Sportart
+     * @return array Liste der Sportart
      */
-    public function getVorstand() {
-        return $this->_db->select('SELECT * FROM mitglied WHERE rang = :rang', array('rang' => 'vorstand'));
-    }
-       
-    /**
-     * Gibt alle Sportarten zurueck.
-     * @return array Liste mit Sportarten
-     */
-    public function getSportarten() {
-        return $this->_db->select('SELECT * FROM sportarten ORDER BY sportart ASC');
+    public function getSportart($sportart_id) {
+        return $this->_db->select('SELECT sportart FROM sportarten WHERE sportart_id = :sportart_id', array('sportart_id' => $sportart_id));
     }
 }
 

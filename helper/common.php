@@ -31,6 +31,14 @@ class Common extends Model {
     public function getSportarten() {
         return $this->_db->select('SELECT * FROM sportarten ORDER BY sportart ASC');
     }
+    
+    /**
+     * Gibt alle Kurse zurück.
+     * @return array Liste der Kurse
+     */
+    public function getKurse() {
+        return $this->_db->select('SELECT * FROM kurse ORDER BY kursname ASC');
+    }
 }
 
 ?>

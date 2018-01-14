@@ -25,7 +25,7 @@ class Mitglied extends Controller
             $data['title'] = 'Mitgliederbereich';
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_common->getSportarten();
+            $data['sportarten'] = $this->_common->getSportarten();
             switch (array_pop($url)) {
                 case 'vorstand':
                     $this->_view->render('vorstand/navigation', $data);
@@ -59,7 +59,7 @@ class Mitglied extends Controller
             
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_common->getSportarten();
+            $data['sportarten'] = $this->_common->getSportarten();
             $this->_view->render('member/navigation', $data);
             
             switch (array_pop($url)) {
@@ -98,7 +98,7 @@ class Mitglied extends Controller
             $data['vorstand'] = $this->_common->getVorstand();
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_common->getSportarten();
+            $data['sportarten'] = $this->_common->getSportarten();
             $this->_view->render('vorstand/navigation', $data);
             //$this->_view->render('vorstand/content', $data);
             $this->_view->render('footer');
@@ -121,7 +121,7 @@ class Mitglied extends Controller
             $data['title'] = 'Buchung';
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $data = $this->_common->getSportarten();
+            $data['sportarten'] = $this->_common->getSportarten();
             $this->_view->render('member/navigation', $data);
             $this->_view->render('member/buchung', $data);
             //test

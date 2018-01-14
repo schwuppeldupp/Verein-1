@@ -17,12 +17,31 @@ class Mainpage extends Controller
         $data['title'] = '&Uuml;bersicht';       
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
-        //$data = $this->_model->getSportarten();
-        $data = $this->_common->getSportarten();
+        $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
-        //$data['vorstand'] = $this->_model->getVorstand();
         $data['vorstand'] = $this->_common->getVorstand();
         $this->_view->render('public/content', $data);
+        $this->_view->render('footer');
+    }
+    
+    /**
+     * Rendert Angebotsseite.
+     */
+    public function angebot()
+    {
+        Session::set('csrf_token', uniqid('', true));
+        $data['title'] = '&Uuml;bersicht';
+        $this->_view->render('header', $data);
+        $this->_view->render('public/login', $data);
+        $data['sportarten'] = $this->_common->getSportarten();
+        $this->_view->render('public/navigation', $data);
+        $data['vorstand'] = $this->_common->getVorstand();
+        $data['kurse'] = $this->_common->getKurse();
+        $kursleiter = $this->_model->getKursleiter($data['kurse'][0]['mitglied_id']);
+        $data['kurse'][0]['kursleiter'] = $kursleiter[0]['vorname'] . ' ' . $kursleiter[0]['nachname'];
+        $sportart =  $this->_model->getSportart($data['sportarten'][0]['sportart_id']);
+        $data['kurse'][0]['sportart'] = $sportart[0]['sportart'];
+        $this->_view->render('public/angebot', $data);
         $this->_view->render('footer');
     }
     
@@ -33,16 +52,14 @@ class Mainpage extends Controller
     {
         $url = explode("/", $_GET['url']);
         
-        $data['vorstand'] = $this->_model->getVorstand();
+        $data['vorstand'] = $this->_common->getVorstand();
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
-        //$data = $this->_model->getSportarten();
-        $data = $this->_common->getSportarten();
+        $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         
         switch (array_pop($url)) {
             case 'vorstand':
-                //$data['vorstand'] = $this->_model->getVorstand();
                 $data['vorstand'] = $this->_common->getVorstand();
                 $this->_view->render('public/vorstand', $data);
                 break;
@@ -68,8 +85,7 @@ class Mainpage extends Controller
         //$data['content_title'] = 'Registrierung';       
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
-        $data = $this->_common->getSportarten();
-        //$data = $this->_model->getSportarten();
+        $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('public/registration', $data);
         $this->_view->render('footer');
@@ -84,7 +100,7 @@ class Mainpage extends Controller
         $data['title'] = '&Uuml;bersicht';
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
-        $data = $this->_common->getSportarten();
+        $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('error/login', $data);
         $this->_view->render('footer');
@@ -99,7 +115,7 @@ class Mainpage extends Controller
         $data['title'] = 'Registrierung';
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
-        $data = $this->_common->getSportarten();
+        $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
  
         switch (substr($_GET['url'], -1)) {
@@ -134,7 +150,7 @@ class Mainpage extends Controller
     {
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
-        $data = $this->_common->getSportarten();
+        $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('public/success', $data);
         $this->_view->render('footer');

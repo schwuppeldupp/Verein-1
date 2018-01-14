@@ -5,7 +5,7 @@
 		<li><a href="<?= DIR?>mitglied/angebot/<?= Session::get('csrf_token')?>">Angebot</a>
 			<ul>
 			<?php
-                foreach ($data as $sportart) {
+			foreach ($data['sportarten'] as $sportart) {
                     echo '<li><a href="' . DIR . 'mitglied/angebot/' . $sportart['sportart_id'] . '/' . Session::get('csrf_token') . '">'. $sportart['sportart'] . '</a></li>';
                 }
             ?>

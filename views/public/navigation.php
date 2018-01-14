@@ -2,10 +2,10 @@
 	<ul>
 		<?php echo '<li><a href="' . DIR . 'mainpage/index/">Willkommen</a></li>'; ?>
 		<!--<?php echo '<li><a href="' . DIR . 'mainpage/index/' . Session::get('csrf_token') . '">Willkommen</a></li>'; ?>-->
-		<li><a href="<?= DIR?>mainpage/angebot"> Angebot </a>
+		<li><a href="<?= DIR?>mainpage/angebot">Angebot</a>
 			<ul>
 			<?php
-                foreach ($data as $sportart) {
+			foreach ($data['sportarten'] as $sportart) {
                     echo '<li><a href="' . DIR . 'mainpage/angebot/' . $sportart['sportart_id'] . '">'. $sportart['sportart'] . '</a></li>';
                 }
             ?>

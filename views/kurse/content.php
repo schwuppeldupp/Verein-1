@@ -11,13 +11,32 @@
                         echo '<form id="kurse" role="form" action="' . DIR . 'kurse/kurse/1/' . Session::get('csrf_token') . '" method="POST">' . "\n";
                         echo '<tr><th><input type="text" name="kursname" value="' . $kurs['kursname'] . '"></th>
                               <th><input type="text" name="maxteilnehmer" value="' . $kurs['maxteilnehmer'] . '"></th>
-                              <th></th>
-                              <th></th>
-                              <th><input type="date" name="datum" value="' . $kurs['datum'] . '"></th>
-                              <th><input type="time" name="beginn" value="' . $kurs['beginn'] . '"></th>
-                              <th><input type="time" name="ende" value="' . $kurs['ende'] . '"></th>
+                              <th><select id="mitglieder" name="mitglied_id">';
+                        foreach ($data['mitglieder'] as $mitglied) {
+                            if($mitglied['mitglied_id'] == $kurs['mitglied_id']){
+                                echo '<option value="' . $mitglied['mitglied_id'] . '" selected>' . $mitglied['vorname'] . ' ' . $mitglied['nachname'] . '</option>';
+                            }
+                            else {
+                                echo '<option value="' . $mitglied['mitglied_id'] . '">' . $mitglied['vorname'] . ' ' . $mitglied['nachname'] . '</option>';
+                            }
+                        }
+                        echo '</select></th>
+                               <th><select id="sportart" name="sportart">';
+                        foreach ($data['sportarten'] as $sportart) {
+                            if($sportart['sportart_id'] == $kurs['sportart_id']){
+                                echo '<option value="' . $sportart['sportart'] . '" selected>' . $sportart['sportart'] . '</option>';
+                            }
+                            else {
+                                echo '<option value="' . $sportart['sportart'] . '">' . $sportart['sportart'] . '</option>';
+                            }
+                        }                       
+                        echo '</select></th>
+                              <th><input type="date" name="datum" value="' . substr($kurs['beginn'], 0, 10) . '"></th>
+                              <th><input type="time" name="beginn" value="' .  substr($kurs['beginn'], -8) . '"></th>
+                              <th><input type="time" name="ende" value="' . substr($kurs['ende'], -8) . '"></th>
                               <th><input type="text" name="beschreibung" value="' . $kurs['beschreibung'] . '"></th>
                               <th><input type="submit" name="change" value="&#8635;"/></th><th><input type="submit" name="delete" value="&#10006;"></th></tr>' . "\n";
+                        echo '<input type="hidden" name="kurs_id" value="' . $kurs['kurs_id'] . '"/>' . "\n";
                         echo '<input type="hidden" name="sportart_id" value="' . $kurs['sportart_id'] . '"/>' . "\n";
                         echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '"/>' . "\n";
                         echo '</form>' . "\n";
@@ -30,8 +49,7 @@
                         echo '<option value="' . $mitglied['mitglied_id'] . '">' . $mitglied['vorname'] . ' ' . $mitglied['nachname'] . '</option>';
                     }
                     echo '</select></th>
-                            <th><select id="sportart" name="sportart">';
-                    
+                            <th><select id="sportart" name="sportart">';                    
                     foreach ($data['sportarten'] as $sportart) {
                         echo '<option value="' . $sportart['sportart'] . '">' . $sportart['sportart'] . '</option>';
                     }

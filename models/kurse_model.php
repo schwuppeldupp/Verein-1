@@ -13,15 +13,7 @@ class Kurse_Model extends Model {
     public function getKurs() {
         return $this->_db->select('SELECT * FROM kurse WHERE kursname = :kursname', array('kursname' =>  $data['kursname']));
     }
-    
-    /**
-     * Gibt alle Kurse zurück.
-     * @return array Liste der Kurse
-     */
-    public function getKurse() {
-        return $this->_db->select('SELECT * FROM kurse ORDER BY kursname ASC');
-    }
-    
+       
     /**
      * Setzt Kurs.
      * @param  array $data Daten des Kurses
@@ -29,6 +21,22 @@ class Kurse_Model extends Model {
      */
     public function setKurs($data) {
         return $this->_db->insert('kurse', array('kursname' =>  $data['kursname'], 'maxteilnehmer' =>  $data['maxteilnehmer'], 'mitglied_id' =>  $data['mitglied_id'], 'sportart_id' =>  $data['sportart_id'], 'beginn' =>  $data['beginn'], 'ende' =>  $data['ende'], 'beschreibung' =>  $data['beschreibung']));
+    }
+      
+    /**
+     * Update des Kurses.
+     * @return int Anzahl der Reihen
+     */
+    public function updateKurs($data) {
+        return  $this->_db->update('kurse', array('kursname' =>  $data['kursname'], 'maxteilnehmer' =>  $data['maxteilnehmer'], 'mitglied_id' =>  $data['mitglied_id'], 'sportart_id' =>  $data['sportart_id'], 'beginn' =>  $data['beginn'], 'ende' =>  $data['ende'], 'beschreibung' =>  $data['beschreibung']), array('kurs_id' => $data['kurs_id']));
+    }
+    
+    /**
+     * Loescht Kurs.
+     * @return array der Reihen in Liste der Kurse
+     */
+    public function delKurs($kursname) {
+        return  $this->_db->delete('kurse', array('kursname' => $kursname));
     }
     
     /**

@@ -22,7 +22,7 @@ class Sportstaette extends Controller
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
             
             //$data['vorstand'] = $this->_model->getAllVorstaende();
-            $data = $this->_model->getSportarten();
+            $data['sportarten'] = $this->_model->getSportarten();
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
             $this->_view->render('vorstand/navigation', $data);

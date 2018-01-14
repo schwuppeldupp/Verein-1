@@ -42,7 +42,7 @@ class Sportarten_Model extends Model {
     
     /**
      * Loescht Sportart.
-     * @return array Liste der Sportart
+     * @return array Anzahl der Reihen in Liste der Sportart
      */
     public function delSportart($sportart) {
         return  $this->_db->delete('sportarten', array('sportart' => $sportart));

@@ -24,9 +24,8 @@ class Kurse extends Controller
             $data['vorstand'] = $this->_common->getVorstand();
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
-            $this->_view->render('vorstand/navigation', $data);
-            
-            $data['kurse'] = $this->_model->getKurse();
+            $this->_view->render('vorstand/navigation', $data);           
+            $data['kurse'] = $this->_common->getKurse();
             $data['sportarten'] = $this->_common->getSportarten();
             $data['mitglieder'] = $this->_common->joinMitglieder();
             $this->_view->render('kurse/content', $data);
@@ -48,30 +47,31 @@ class Kurse extends Controller
         
         if($_POST['kursname']) {
             switch (array_pop($url)) {
-                case 0:            
-                    if($this->_model->getKurs($_POST['kursname'])) {
-                        //$this->_model->updateSportart($_POST['kursname'], $_POST['beschreibung']);
-                    }
-                    else {
-                        //toDo:
-                        //Datetime formatieren 0000-00-00 00:00:00
-                        //<option value="Yoga" selected>Yoga</option>
-                        
-                        //sportart_id ermitteln
-                        $sport = $this->_model->getSportartId($_POST);
-                        $kurs = $_POST;
-                        $kurs['sportart_id'] = $sport[0]['sportart_id'];
-                        $this->_model->setKurs($kurs);
-                    }
+                case 0:                                 
+                    // sportart_id aus Sportart ermitteln
+                    $sport = $this->_model->getSportartId($_POST);
+                    $kurs = $_POST;
+                    // sportart_id in Array schreiben
+                    $kurs['sportart_id'] = $sport[0]['sportart_id'];
+                    // beginn und ende in Array schreiben; Format: 2018-02-01 15:00:00
+                    $kurs['beginn'] = $kurs['datum']  . ' ' . $kurs['beginn'];
+                    $kurs['ende'] = $kurs['datum']  . ' ' . $kurs['ende'];
+                    $this->_model->setKurs($kurs);
+
                     header("Location: " . DIR . "kurse/verwaltung/" . Session::get('csrf_token'));
                     break;
                 case 1:
-                    if($_POST['change']) {
-                        //$this->_model->changeKurs($_POST['sportart_id'], $_POST['sportart'], $_POST['beschreibung']);
+                    if($_POST['change']) {   
+                        $sport = $this->_model->getSportartId($_POST);
+                        $kurs = $_POST;
+                        $kurs['sportart_id'] = $sport[0]['sportart_id'];
+                        $kurs['beginn'] = $kurs['datum']  . ' ' . $kurs['beginn'];
+                        $kurs['ende'] = $kurs['datum']  . ' ' . $kurs['ende'];
+                        $this->_model->updateKurs($kurs);
                         header("Location: " . DIR . "kurse/verwaltung/" . Session::get('csrf_token'));   
                     }
                     elseif ($_POST['delete']) {
-                        //$this->_model->delKurs($_POST['sportart']);
+                        $this->_model->delKurs($_POST['kursname']);
                         header("Location: " . DIR . "kurse/verwaltung/" . Session::get('csrf_token'));
                     }
                     break;
