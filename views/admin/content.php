@@ -1,7 +1,7 @@
 <div id="seiteninhalt-index">
 <h2>Administration</h2>
 <h3>Vorstand setzen</h3>
-	<form id="vorstand" role="form" action="<?= DIR ?>admin/vorstand/<?= Session::get('csrf_token') ?>" method="POST">
+	<form id="vorstand" role="form" action="<?= DIR ?>admin/vorstand" method="POST">
 		<select id="vorstand" name="vorstand">
 		<?php
 		foreach ($data['mitglieder'] as $user) {

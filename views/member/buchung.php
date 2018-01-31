@@ -1,25 +1,40 @@
 <div id="seiteninhalt-index">
-<h2>Buchungen</h2>
-	<div id="sportarten">
-		<table>
-			<thead>
-				<tr><th>Sportarten</th><th>Beschreibung</th><th>&Auml;ndern</th><th>L&ouml;schen</th></tr>
-			</thead>
-			<tbody>
-				<?php
-                    foreach ($data as $sportart) {
-                        echo '<form id="sportstaetten" role="form" action="' . DIR . 'sportarten/sportarten/1/' . Session::get('csrf_token') . '" method="POST">' . "\n";
-                        echo '<tr><th><input type="text" name="sportart" value="' . $sportart['sportart'] . '"></th><th><input type="text" name="beschreibung" value="' . $sportart['beschreibung'] . '"></th><th><input type="submit" name="change" value="&#8635;"/></th><th><input type="submit" name="delete" value="&#10006;"></th></tr>' . "\n";
-                        echo '<input type="hidden" name="sportart_id" value="' . $sportart['sportart_id'] . '"/>' . "\n";
-                        echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '"/>' . "\n";
-                        echo '</form>' . "\n";
-                    }
-                    echo '<form id="sportstaetten" role="form" action="' . DIR . 'sportarten/sportarten/0/' . Session::get('csrf_token') . '" method="POST">' . "\n";
-                    echo '<tr><th><input type="text" name="sportart" placeholder="neue Sportart hinzuf&uuml;gen"></th><th><input type="text" name="beschreibung" placeholder="Beschreibung"></th><th>Speichern</th><th><input type="submit" name="save" value="&#9654;"></th></tr>' . "\n";
-                    echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '">' . "\n";
-                    echo '</form>' . "\n";
-                ?>
-				</tbody>
-		</table>
-	</div>
+<h2>Kurse</h2>
+ <div class="details">
+	<div id="content" class="content"></div>
+ </div>
+ <div class="settings">
+ <div id="table" class="table">
+    <div class="trhead">
+      <div class="td">Datum</div>
+      <div class="td">Beginn</div>
+	  <div class="td">Ende</div>
+      <div class="td">Kurs</div>
+      <div class="td">Kursleiter</div>
+      <div class="td">Beschreibung</div>
+      <div class="td">Sportart</div>
+	  <div class="td">Buchen</div>
+	  <div class="td">L&ouml;schen</div>
+    </div>
+	<?php
+        foreach ($data['kurse'] as $kurs) {
+            echo '<div id="tr_' . $kurs['kurs_id'] . '" class="tr">';
+            //echo '<div id="tr" class="tr">';
+			echo '<div class="td">'. date("d.m.Y", strtotime(substr($kurs['beginn'], 0, 10))) . '</div>' . "\n"; 
+			echo '<div class="td">' . substr($kurs['beginn'], -8, 5) . '</div>';
+			echo '<div class="td">' . substr($kurs['ende'], -8, 5) . '</div>';
+			echo '<div class="td">'. $kurs['kursname'] . '</div>' . "\n"; 
+			echo '<div class="td">' . $kurs['vorname'] . ' ' . $kurs['nachname'] . '</div>';
+			echo '<div id="bs_' . $kurs['kurs_id'] . '" class="td">'. $kurs['beschreibung'] . '</div>' . "\n"; 
+			echo '<div class="td">'. $kurs['sportart'] . '</div>' . "\n";
+			echo '<div class="td"><form id="buchen" role="form" action="' . DIR . 'kurse/buchen/1/" method="POST"><input type="submit" name="book" value="&#8635;"/><input type="hidden" name="kurs_id" value="' .$kurs['kurs_id'] . '"/><input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '"/></form></div>' . "\n";
+			echo '<div class="td"><form id="buchen" role="form" action="' . DIR . 'kurse/buchen/1/" method="POST"><input type="submit" name="delete" value="&#10006;"/><input type="hidden" name="kurs_id" value="' .$kurs['kurs_id'] . '"/><input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '"/></form></div>' . "\n";
+			echo '</div>' . "\n";
+			//echo '<div id="bs_' . $kurs['kurs_id'] . '">'. $kurs['beschreibung'] . '</div>' . "\n"; 
+		}
+					
+	?>
+  </div>
+</div>  
 </div>
+<script type="text/javascript" src="<?= URL::JAVA('table') ?>"></script>

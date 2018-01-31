@@ -1,12 +1,12 @@
 <div id="seiteninhalt-index">
 <h2>Sportst&auml;tten</h2>
 	<div id="sportstaetten">
-		<form id="save_sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/0/<?= Session::get('csrf_token') ?>" method="POST">
+		<form id="save_sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/0" method="POST">
 			<input type="text" id="sporstaette" name="sportstaette" placeholder="neue Sportst&auml;tte hinzuf&uuml;gen">
 			<input type="submit" value="Hinzuf&uuml;gen">
 			<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
 		</form>
-		<form id="del_sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/1/<?= Session::get('csrf_token') ?>" method="POST">
+		<form id="del_sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/1" method="POST">
 			<select id="sportstaette" name="sportstaette">
 			<?php
             foreach ($data as $sportstaette) {
@@ -19,7 +19,7 @@
 		</form>
 	</div>
 	<div>
-	<form id="sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/2/<?= Session::get('csrf_token') ?>" method="POST">
+	<form id="sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/2" method="POST">
 		<table>
 			<thead>
 				<tr><th>Sportarten</th><th>&Auml;ndern</th><th>L&ouml;schen</th></tr>

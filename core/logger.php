@@ -21,7 +21,7 @@ class Logger {
         
         if ( ($number !== E_NOTICE) && ($number < 2048) ) {
             self::errorMessage($msg);
-            self::customErrorMsg($e);
+            self::customErrorMsg($msg);
         }
         
         return 0;

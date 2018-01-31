@@ -1,12 +1,12 @@
 <div id="seiteninhalt-index">
 <h2>Sportarten</h2>
 	<div id="sportarten">
-		<form id="save_sportarten" role="form" action="<?= DIR ?>vorstand/sportarten/0/<?= Session::get('csrf_token') ?>" method="POST">
+		<form id="save_sportarten" role="form" action="<?= DIR ?>vorstand/sportarten/0" method="POST">
 			<input type="text" id="sportart" name="sportart" placeholder="neue Sportart hinzuf&uuml;gen">
 			<input type="submit" value="Hinzuf&uuml;gen">
 			<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
 		</form>
-		<form id="del_sportarten" role="form" action="<?= DIR ?>vorstand/sportarten/1/<?= Session::get('csrf_token') ?>" method="POST">
+		<form id="del_sportarten" role="form" action="<?= DIR ?>vorstand/sportarten/1" method="POST">
 			<select id="sportart" name="sportart">
 			<?php
             foreach ($data as $sportart) {

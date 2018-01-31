@@ -1,23 +1,29 @@
 <div id="seiteninhalt-index">
 <h2>Angebot</h2>
-<table>
-	<thead>
-		<tr><th>Kursname</th><th>Teilnehmerzahl</th><th>Kursleiter</th><th>Sportart</th><th>Datum</th><th>Beginn</th><th>Ende</th><th>Beschreibung</th></tr>
-	</thead>
-	<tbody>
+ <div class="table">
+    <div class="trhead">
+      <div class="td">Kursname</div>
+      <div class="td">Teilnehmerzahl</div>
+      <div class="td">Kursleiter</div>
+      <div class="td">Sportart</div>
+	  <div class="td">Datum</div>
+	  <div class="td">Beginn</div>
+	  <div class="td">Ende</div>
+	  <div class="td">Beschreibung</div>
+    </div>
 <?php
 foreach ($data['kurse'] as $kurs) {
-    echo '<tr><th>' . $kurs['kursname'] . '</th>
-          <th>' .$kurs['maxteilnehmer'] . '</th>
-          <th>' . $kurs['kursleiter'] .  '</th>
-          <th>' . $kurs['sportart'] . '</th>
-          <th>' . date("d.m.Y", strtotime(substr($kurs['beginn'], 0, 10))) . '</th>
-          <th>' . substr($kurs['beginn'], -8, 5) . '</th>
-          <th>' . substr($kurs['ende'], -8, 5) . '</th>
-          <th>' . $kurs['beschreibung'] . '</th>'
-          . '</th></tr>';
+    echo '<div class="tr">';
+    echo '<div class="td">' . $kurs['kursname'] . '</div>';
+    echo '<div class="td">' . $kurs['maxteilnehmer'] . '</div>';
+    echo '<div class="td">' . $kurs['vorname'] . ' ' . $kurs['nachname'] . '</div>';
+    echo '<div class="td">' . $kurs['sportart'] . '</div>';
+    echo '<div class="td">' . date("d.m.Y", strtotime(substr($kurs['beginn'], 0, 10))) . '</div>';
+    echo '<div class="td">' . substr($kurs['beginn'], -8, 5) . '</div>';
+    echo '<div class="td">' . substr($kurs['ende'], -8, 5) . '</div>';
+    echo '<div class="td">' . $kurs['beschreibung'] . '</div>';
+    echo '</div>';
 }
 ?>
-   </tbody>
-</table>
+</div>
 </div>

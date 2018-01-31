@@ -97,6 +97,14 @@ class Mitglied_Model extends Model {
     public function setPostleitzahl($data) {
         $this->_db->insert('postleitzahl', array('postleitzahl' => $data['postleitzahl'], 'ort' => $data['ort']), 'postleitzahl = postleitzahl');
     }
+    
+    /**
+     * Gibt alle Kurse zurück + Kursleiter + Sportart zurück.
+     * @return array Liste der Kurse
+     */
+    public function getKurse() {       
+        return $this->_db->select('SELECT mitglied.vorname, mitglied.nachname, sportarten.sportart, kurse.* FROM kurse JOIN sportarten USING (sportart_id) JOIN mitglied USING (mitglied_id)');
+    }
 }
 
 ?>

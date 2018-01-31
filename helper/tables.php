@@ -11,6 +11,7 @@ class Tables {
             `adresse_id` INT(10) NOT NULL,
             `telefon` VARCHAR(255) NOT NULL,
             `rang` VARCHAR(255) NULL,
+            `trainer` VARCHAR(255) NULL,
             `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             UNIQUE(email)
             ) ENGINE = InnoDB CHARSET = utf8 COLLATE utf8_unicode_ci";

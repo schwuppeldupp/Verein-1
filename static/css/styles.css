@@ -36,6 +36,18 @@ a {text-decoration: none}
 #seiteninhalt-index > div > form {padding: 10px;}
 #seiteninhalt-index > form#vorstand{display: flex;justify-content: center;}
 
+/*div table Fomatierung*/
+#seiteninhalt-index > div {display: table; border-collapse:collapse; border: 2px solid black; font-weight: bold; margin: auto;}
+div.details{display: inline; float: left; height: 80%; min-width: 20%; border-collapse:collapse; border: 2px solid black; font-weight: bold; text-align: justify; background: white;}
+div.content{font-weight: normal; text-align: left;}
+div.settings{display: inline; float: left;}
+div.table {display: table; border-collapse:collapse; border: 2px solid black; font-weight: bold;}
+div.trhead {display:table-row; text-align: center; background-color: #800000; border: 2px solid black; color: white;}
+div.tr {display:table-row; text-align: center;}
+div.td {display:table-cell; border:thin solid black; padding:5px; vertical-align: middle;}
+div.tr:nth-child(even) {background-color: #d2cfcf;}
+div.tr:nth-child(odd) {background-color: #fff;}
+
 /*regsitrierung Formatierung*/
 
 #beschriftung {float:left; }
@@ -116,4 +128,5 @@ select {width: 200px;}
 #save_sportarten > input#submit {margin-left: 55px;}
 #save_sportarten > textarea {display: flex;}
 #del_sportarten > input {width: 85px;}
+
 

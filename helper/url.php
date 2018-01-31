@@ -40,6 +40,16 @@ class URL {
       }
       return DIR . $path;
    }
+   
+   /**
+    * Pfad der javascript-Datei.
+    */
+   public static function JAVA($filename = false, $path = 'static/java/') {
+       if ($filename) {
+           $path .= "$filename.js";
+       }
+       return DIR . $path;
+   }
 }
 
 ?>

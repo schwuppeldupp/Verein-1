@@ -14,6 +14,7 @@ class Mainpage extends Controller
     public function index()
     {
         Session::set('csrf_token', uniqid('', true));
+
         $data['title'] = '&Uuml;bersicht';       
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
@@ -21,6 +22,10 @@ class Mainpage extends Controller
         $this->_view->render('public/navigation', $data);
         $data['vorstand'] = $this->_common->getVorstand();
         $this->_view->render('public/content', $data);
+        
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
+        //echo  $headers['X-CSRF-Token'];
         $this->_view->render('footer');
     }
     
@@ -29,19 +34,26 @@ class Mainpage extends Controller
      */
     public function angebot()
     {
-        Session::set('csrf_token', uniqid('', true));
+        //Session::set('csrf_token', uniqid('', true));
+        //$headers = apache_response_headers();
+        //echo  'begin: ' . $headers['X-CSRF-Token'] . '</br>';
+        //echo  'begin: ' .$_GET['url'];
+        //echo  'begin: ' . $this->getToken();
+
         $data['title'] = '&Uuml;bersicht';
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
         $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $data['vorstand'] = $this->_common->getVorstand();
-        $data['kurse'] = $this->_common->getKurse();
-        $kursleiter = $this->_model->getKursleiter($data['kurse'][0]['mitglied_id']);
-        $data['kurse'][0]['kursleiter'] = $kursleiter[0]['vorname'] . ' ' . $kursleiter[0]['nachname'];
-        $sportart =  $this->_model->getSportart($data['sportarten'][0]['sportart_id']);
-        $data['kurse'][0]['sportart'] = $sportart[0]['sportart'];
-        $this->_view->render('public/angebot', $data);
+        $data['kurse'] = $this->_model->getKurse();
+        $this->_view->render('public/angebot', $data);       
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
+        //echo  'end: ' . $headers['X-CSRF-Token'];
+        //header("X-CSRF-Token:");  //unset($headers['X-CSRF-Token']);
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
         $this->_view->render('footer');
     }
     
@@ -50,6 +62,8 @@ class Mainpage extends Controller
      */
     public function impressum()
     {
+        //Session::set('csrf_token', uniqid('', true));
+        
         $url = explode("/", $_GET['url']);
         
         $data['vorstand'] = $this->_common->getVorstand();
@@ -73,6 +87,9 @@ class Mainpage extends Controller
                 $this->_view->render('public/content', $data);
                 break;
         }
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
+        //echo  $headers['X-CSRF-Token'];
         $this->_view->render('footer');
     }
 
@@ -81,6 +98,8 @@ class Mainpage extends Controller
      */
     public function register()
     {
+        //Session::set('csrf_token', uniqid('', true));
+        
         $data['title'] = 'Registrierung';
         //$data['content_title'] = 'Registrierung';       
         $this->_view->render('header', $data);
@@ -88,6 +107,10 @@ class Mainpage extends Controller
         $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('public/registration', $data);
+        
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
+        //echo  $headers['X-CSRF-Token'];
         $this->_view->render('footer');
     }
     
@@ -96,13 +119,18 @@ class Mainpage extends Controller
      */
     public function loginerror()
     {
-        Session::set('csrf_token', uniqid('', true));
+        //Session::set('csrf_token', uniqid('', true));
+
         $data['title'] = '&Uuml;bersicht';
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
         $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('error/login', $data);
+        
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
+        //echo  $headers['X-CSRF-Token'];
         $this->_view->render('footer');
     }
     
@@ -112,6 +140,8 @@ class Mainpage extends Controller
      */
     public function registrationerror()
     {
+        //Session::set('csrf_token', uniqid('', true));
+
         $data['title'] = 'Registrierung';
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
@@ -140,6 +170,10 @@ class Mainpage extends Controller
         }
         
         $this->_view->render('error/registration', $data);
+        
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
+        //echo  $headers['X-CSRF-Token'];
         $this->_view->render('footer');
     }
  
@@ -148,11 +182,17 @@ class Mainpage extends Controller
      */
     public function registrationsuccess()
     {
+        //Session::set('csrf_token', uniqid('', true));
+ 
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
         $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('public/success', $data);
+        
+        //$headers = apache_response_headers();
+        //echo print_r($headers);
+        //echo  $headers['X-CSRF-Token'];
         $this->_view->render('footer');
     }
     
@@ -173,14 +213,19 @@ class Mainpage extends Controller
      */
     public function logout()
     {
-        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        if(!Session::get('csrf_token')) {
             Session::destroy();
-            self::loginerror();
+            //self::loginerror();
+            //header("X-CSRF-Token: " . Session::get('csrf_token'));
+            header("Location: " . DIR . "mainpage/loginerror");
+            //header("Location: " . DIR . "mainpage/loginerror/" . Session::get('csrf_token'));
         }
         else {
             Session::destroy();
             //self::index();
-            header("Location: " . DIR . "mainpage/index/" . Session::get('csrf_token'));
+            //header("X-CSRF-Token: " . Session::get('csrf_token'));
+            header("Location: " . DIR . "mainpage/index");
+            //header("Location: " . DIR . "mainpage/index/" . Session::get('csrf_token'));
         }
     }
 }

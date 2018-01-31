@@ -14,10 +14,11 @@ class Mitglied extends Controller
     public function index()
     {        
         $url = explode("/", $_GET['url']);
-        if(array_pop($url) !== Session::get('csrf_token')) {
+        
+        if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
-            header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
+            header("Location: " . DIR . "mainpage/safety");
         }
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
@@ -49,10 +50,11 @@ class Mitglied extends Controller
     {
         $url = explode("/", $_GET['url']);
         
-        if(array_pop($url) !== Session::get('csrf_token')) {
+        //if(array_pop($url) !== Session::get('csrf_token')) {
+        if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
-            header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
+            header("Location: " . DIR . "mainpage/safety");
         }
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
@@ -79,6 +81,7 @@ class Mitglied extends Controller
             }
             $this->_view->render('footer');
             
+            //header("X-CSRF-Token: " . Session::get('csrf_token'));           
         }
     }
         
@@ -87,10 +90,11 @@ class Mitglied extends Controller
      */ 
     public function impressum2()
     {
-        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
-            header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
+            header("Location: " . DIR . "mainpage/safety");
         }
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
@@ -110,7 +114,8 @@ class Mitglied extends Controller
      */
     public function buchung()
     {
-        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
             header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
@@ -123,6 +128,11 @@ class Mitglied extends Controller
             $this->_view->render('member/login', $data);
             $data['sportarten'] = $this->_common->getSportarten();
             $this->_view->render('member/navigation', $data);
+            //$data['kurse'] = $this->_common->getKurse();
+            $data['kurse'] = $this->_model->getKurse();
+            
+            //$kurs['beginn'] = $kurs['datum']  . ' ' . $kurs['beginn'];
+            //$kurs['ende'] = $kurs['datum']  . ' ' . $kurs['ende'];
             $this->_view->render('member/buchung', $data);
             //test
             //echo end(explode("/", $_GET['url'])) . '</br>';
@@ -135,10 +145,11 @@ class Mitglied extends Controller
      */
     public function buchung2()
     {
-        if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
+        if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
-            header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
+            header("Location: " . DIR . "mainpage/safety");
         }
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
@@ -159,12 +170,12 @@ class Mitglied extends Controller
      */
     public function registration()
     {
-        if($_POST['csrf'] !== Session::get('csrf_token')) {
+        /*if($_POST['csrf'] !== Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
             header("Location: " . DIR . "mainpage/registrationerror");
-        }
-               
+        }*/
+        if(hash_equals($_POST['csrf'], Session::get('csrf_token'))) {
         if($_POST['register']) {
             $user = $_POST['register'];
             
@@ -197,7 +208,7 @@ class Mitglied extends Controller
                         //Mitgliedsdaten schreiben
                         $this->_model->setRegistration($user); 
                         Session::destroy(); 
-                        Session::set('csrf_token', uniqid('', true));                    
+                        Session::set('csrf_token', uniqid('', true));
                         header("Location: " . DIR . "mainpage/registrationsuccess"); //alles ging gut :)
                     }
                     else { //Passwort falsch
@@ -224,6 +235,12 @@ class Mitglied extends Controller
             Session::set('csrf_token', uniqid('', true));
             header("Location: " . DIR . "mainpage/registrationerror/0");
         }
+        }
+        else {
+            Session::destroy();
+            Session::set('csrf_token', uniqid('', true));
+            header("Location: " . DIR . "mainpage/registrationerror");
+        }
     }
     
     /**
@@ -233,47 +250,53 @@ class Mitglied extends Controller
      */
     public function login()
     { 
-        if($_POST['csrf'] !== Session::get('csrf_token')) {
+        if(hash_equals($_POST['csrf'], Session::get('csrf_token'))) {
+            if($_POST['login']) {
+                
+                $login = $_POST['login'];
+                $user = false;
+                if ($login['name'] == 'admin') {
+                    $user = $this->_model->checkAdmin();
+                }
+                else {
+                    $user = $this->_model->checkEmail($login['name']);                
+                }
+            
+                if ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'vorstand') {
+                    Session::set('name', $user[0]['vorname'] . " " .$user[0]['nachname']);
+                    Session::set('mitglied_id', $user[0]['mitglied_id']);
+                    Session::set('rang', 'Vorstand');                  
+                    header("Location: " . DIR . "mitglied/index/vorstand");
+                }
+                elseif ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'admin') {
+                    Session::set('name', 'Admin');
+                    Session::set('rang', 'Admin');
+                    header("Location: " . DIR . "admin/index");
+                }
+                elseif ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort'])) {
+                
+                    Session::set('name', $user[0]['vorname'] . " " .$user[0]['nachname']);
+                    Session::set('mitglied_id', $user[0]['mitglied_id']);
+                    //self::index();
+                    header("Location: " . DIR . "mitglied/index");
+                }
+                else {
+                    Session::destroy();
+                    Session::set('csrf_token', uniqid('', true));
+                    header("Location: " . DIR . "mainpage/loginerror");
+                }
+            }
+        }
+        else {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
-            header("Location: " . DIR . "mainpage/safety/" . Session::get('csrf_token'));
-        }
-        
-        if($_POST['login']) {
-            $login = $_POST['login'];
-            
-            $user = false;
-            if ($login['name'] == 'admin') {
-                $user = $this->_model->checkAdmin();
-            }
-            else {
-                $user = $this->_model->checkEmail($login['name']);
-            }
-            
-            if ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'vorstand') {
-                Session::set('name', $user[0]['vorname'] . " " .$user[0]['nachname']);
-                Session::set('rang', 'Vorstand');
-                header("Location: " . DIR . "mitglied/index/vorstand/" . Session::get('csrf_token'));
-            }
-            elseif ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort']) && $user[0]['rang'] == 'admin') {
-                Session::set('name', 'Admin');
-                Session::set('rang', 'Admin');
-                header("Location: " . DIR . "admin/index/" . Session::get('csrf_token'));
-            }
-            elseif ($user[0] !== false && $this->_pw->verify($login['passwort'],$user[0]['passwort'])) {
-                
-                Session::set('name', $user[0]['vorname'] . " " .$user[0]['nachname']);
-                //self::index();
-                header("Location: " . DIR . "mitglied/index/" . Session::get('csrf_token'));
-            }
-            else {
-                Session::destroy();
-                Session::set('csrf_token', uniqid('', true));
-                header("Location: " . DIR . "mainpage/loginerror");
-            }
+            header("Location: " . DIR . "mainpage/safety");
         }
     } 
     
+    /**
+     * Test, ob Eintrag für Login leer ist
+     */
     function checkRegistration($user)
     { 
         $error = false;

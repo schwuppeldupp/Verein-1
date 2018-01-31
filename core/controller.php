@@ -6,6 +6,7 @@ class Controller {
     protected $_model;
     protected $_common;
     protected $_pw;
+    //protected $_token;
     
     function __construct() {
         $this->_view = new View();
@@ -21,7 +22,15 @@ class Controller {
             $modelName = $name . '_Model';
             $this->_model = new $modelName();
         }
-    }   
+    }  
+    
+    public function setToken($value) {
+        $this->_token = $value;
+    }
+    
+    //public function getToken() {
+    //    return $this->_token;
+    //}
 }
 
 ?>

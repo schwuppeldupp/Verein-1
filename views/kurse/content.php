@@ -8,7 +8,7 @@
 			<tbody>
 				<?php
                     foreach ($data['kurse'] as $kurs) {
-                        echo '<form id="kurse" role="form" action="' . DIR . 'kurse/kurse/1/' . Session::get('csrf_token') . '" method="POST">' . "\n";
+                        echo '<form id="kurse" role="form" action="' . DIR . 'kurse/kurse/1" method="POST">' . "\n";
                         echo '<tr><th><input type="text" name="kursname" value="' . $kurs['kursname'] . '"></th>
                               <th><input type="text" name="maxteilnehmer" value="' . $kurs['maxteilnehmer'] . '"></th>
                               <th><select id="mitglieder" name="mitglied_id">';
@@ -41,7 +41,7 @@
                         echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '"/>' . "\n";
                         echo '</form>' . "\n";
                     }
-                    echo '<form id="kurse" role="form" action="' . DIR . 'kurse/kurse/0/' . Session::get('csrf_token') . '" method="POST">' . "\n";
+                    echo '<form id="kurse" role="form" action="' . DIR . 'kurse/kurse/0" method="POST">' . "\n";
                     echo '<tr><th><input type="text" name="kursname" placeholder="neuen Kurs hinzuf&uuml;gen"></th>
                             <th><input type="text" name="maxteilnehmer" placeholder="maximale Teilnehmer"></th>
                             <th><select id="mitglieder" name="mitglied_id">';
