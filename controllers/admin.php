@@ -13,7 +13,6 @@ class Admin extends Controller
      */
     public function index()
     {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -39,7 +38,7 @@ class Admin extends Controller
     public function vorstand()
     {
         $url = explode("/", $_GET['url']);
-        //if(array_pop($url) !== Session::get('csrf_token')) {
+
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));

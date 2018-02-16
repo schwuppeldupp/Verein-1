@@ -3,7 +3,7 @@
 	<div id="kurse">
 		<table>
 			<thead>
-				<tr><th>Kursname</th><th>Teilnehmerzahl</th><th>Kursleiter</th><th>Sportart</th><th>Datum</th><th>Beginn</th><th>Ende</th><th>Beschreibung</th><th>&Auml;ndern</th><th>L&ouml;schen</th></tr>
+				<tr><th>Kursname</th><th>Teilnehmerzahl</th><th>Kursleiter</th><th>Sportart</th><th>Datum</th><th>Beginn</th><th>Ende</th><th>Beschreibung</th><th>Sportst&auml;tte</th><th>&Auml;ndern</th><th>L&ouml;schen</th></tr>
 			</thead>
 			<tbody>
 				<?php
@@ -34,13 +34,31 @@
                               <th><input type="date" name="datum" value="' . substr($kurs['beginn'], 0, 10) . '"></th>
                               <th><input type="time" name="beginn" value="' .  substr($kurs['beginn'], -8) . '"></th>
                               <th><input type="time" name="ende" value="' . substr($kurs['ende'], -8) . '"></th>
-                              <th><input type="text" name="beschreibung" value="' . $kurs['beschreibung'] . '"></th>
-                              <th><input type="submit" name="change" value="&#8635;"/></th><th><input type="submit" name="delete" value="&#10006;"></th></tr>' . "\n";
+                              <th><input type="text" name="beschreibung" value="' . $kurs['beschreibung'] . '"></th>';
+
+                        echo '</select></th>
+                               <th><select id="sportstaette" name="bezeichnung">';
+                        foreach ($data['sportstaetten'] as $sportstaette) {
+                            if($sportstaette['sportstaette_id'] == $kurs['sportstaette_id']){
+                            //if($sportstaette['sportart_id'] == $kurs['sportart_id']){
+                                echo '<option value="' . $sportstaette['bezeichnung'] . '" selected>' . $sportstaette['bezeichnung'] . '</option>';
+                            }
+                            else {
+                                echo '<option value="' . $sportstaette['bezeichnung'] . '">' . $sportstaette['bezeichnung'] . '</option>';
+                            }
+                        }              
+
+                        echo '</select><th><input type="submit" name="change" value="&#8635;"/></th><th><input type="submit" name="delete" value="&#10006;"></th></tr>' . "\n";
                         echo '<input type="hidden" name="kurs_id" value="' . $kurs['kurs_id'] . '"/>' . "\n";
                         echo '<input type="hidden" name="sportart_id" value="' . $kurs['sportart_id'] . '"/>' . "\n";
                         echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '"/>' . "\n";
                         echo '</form>' . "\n";
                     }
+                    
+                    
+                    
+                    
+                    
                     echo '<form id="kurse" role="form" action="' . DIR . 'kurse/kurse/0" method="POST">' . "\n";
                     echo '<tr><th><input type="text" name="kursname" placeholder="neuen Kurs hinzuf&uuml;gen"></th>
                             <th><input type="text" name="maxteilnehmer" placeholder="maximale Teilnehmer"></th>
@@ -57,12 +75,17 @@
                             <th><input type="date" name="datum"></th>
                             <th><input type="time" name="beginn"></th>
                             <th><input type="time" name="ende"></th>
-                            <th><input type="text" name="beschreibung" placeholder="Beschreibung"></th>
-                            <th>Speichern</th><th><input type="submit" name="save" value="&#9654;"></th></tr>' . "\n";
+                            <th><input type="text" name="beschreibung" placeholder="Beschreibung"></th>';
+                    echo '</select></th>
+                            <th><select id="sportstaette" name="sportstaette">';
+                    foreach ($data['sportstaetten'] as $sportstaette) {
+                        echo '<option value="' . $sportstaette['bezeichnung'] . '">' . $sportstaette['bezeichnung'] . '</option>';
+                    }
+                    echo '</select><th>Speichern</th><th><input type="submit" name="save" value="&#9654;"></th></tr>' . "\n";
                     echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '">' . "\n";
                     echo '</form>' . "\n";
                 ?>
-				</tbody>
+			</tbody>
 		</table>
 	</div>
 </div>

@@ -23,7 +23,7 @@ a {text-decoration: none}
 #navigation a:active  {color:blue; }
 #navigation a:hover   {color:white; background:gray;}
 #navigation a:focus   {color:white;}
-#navigation > ul  a {float:left; padding: 6px 88px; }
+#navigation > ul  a {float:left; padding: 6px 85px; }
 #navigation > ul > li > ul {display: none;}
 #navigation > ul > li:hover > ul {display: block; top: 215px; position: absolute; box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);	background-color: maroon;border-radius: 5px;}
 #navigation > ul > li > ul >li {position: relative; list-style: none;}
@@ -38,9 +38,9 @@ a {text-decoration: none}
 
 /*div table Fomatierung*/
 #seiteninhalt-index > div {display: table; border-collapse:collapse; border: 2px solid black; font-weight: bold; margin: auto;}
-div.details{display: inline; float: left; height: 80%; min-width: 20%; border-collapse:collapse; border: 2px solid black; font-weight: bold; text-align: justify; background: white;}
+div.details{display: inline; height: 80%; border-collapse:collapse; border: 2px solid black; font-weight: bold; text-align: justify; background: white;}
 div.content{font-weight: normal; text-align: left;}
-div.settings{display: inline; float: left;}
+div.settings{display: inline;}
 div.table {display: table; border-collapse:collapse; border: 2px solid black; font-weight: bold;}
 div.trhead {display:table-row; text-align: center; background-color: #800000; border: 2px solid black; color: white;}
 div.tr {display:table-row; text-align: center;}

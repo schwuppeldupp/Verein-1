@@ -3,7 +3,6 @@
 class Loader {
     
     private $_url;
-    //private $_token;
     private $_controller = null;
     private $_defaultController;
     
@@ -31,27 +30,13 @@ class Loader {
     
     private function _getUrl() {
         $url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : NULL;
-        $url = urldecode(filter_var(urlencode($url), FILTER_SANITIZE_URL));
-        
-        //
-        /*if(preg_match("/" . SESSION_PREFIX . "/", $url) === 1) {
-            preg_match("/(^.+)\/(" . SESSION_PREFIX . ".+)/", $url, $regx);
-            $this->_token = $regx[2];
-            $url = $regx[1];
-            //echo print_r($url);
-            //die();
-        }*/    
-        //
-        
+        $url = urldecode(filter_var(urlencode($url), FILTER_SANITIZE_URL));       
         $this->_url = explode('/', $url);
     }
     
     private function _loadDefaultController() {
         require 'controllers/' . $this->_defaultController . '.php';
         $this->_controller = new $this->_defaultController();
-        //
-        //$this->_controller->setToken($this->_token);
-        //
         $this->_controller->index();
     }
     
@@ -64,9 +49,7 @@ class Loader {
             
             //instatiate controller
             $this->_controller = new $this->_url[0];
-            //
-            //$this->_controller->setToken($this->_token);
-            //
+            
         } else {
             $this->_controller = new $this->_url[0];
             $this->_error("Datei existiert nicht: " . $this->_url[0]);
@@ -97,18 +80,7 @@ class Loader {
         $parameter = filter_var_array($this->_url, FILTER_SANITIZE_STRING);
         
         $last = array_pop($parameter);
-               
-        /*if(preg_match("/" . SESSION_PREFIX . "/", $last) === 1) {
-            preg_match("/(^.+)\/(" . SESSION_PREFIX . ".+)/", $parameter, $regx);
-            $this->_token = $regx[2];
-            //$parameter = $regx[1];
-            echo print_r($url);
-            die();
-        }
-        else {
-            array_push ($parameter, $last);
-        }*/
-        //$this->_controller->setToken($this->_token);
+
         call_user_func_array(array($this->_controller, $method), $parameter);
     }
     

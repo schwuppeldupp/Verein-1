@@ -65,7 +65,6 @@ if(isset($_POST['user']) && isset($_POST['db']) && isset($_POST['pw']) && isset(
 		            header('Location: ../index.php');
 		            exit();
 		        }
-		        //$pdo = null;
 		    }
 		    catch(PDOException $e){
 		        //echo "Failed to connect to MySQL: " . $e;
@@ -103,6 +102,7 @@ if(isset($_POST['user']) && isset($_POST['db']) && isset($_POST['pw']) && isset(
 		        createTable($pdo, Tables::getSportstaette());
 		        createTable($pdo, Tables::getKurse());
 		        createTable($pdo, Tables::getBuchungen());
+		        createTable($pdo, Tables::getImpressum());
 		        
 		        $statement = $pdo->prepare("INSERT INTO mitglied (email, passwort, vorname, nachname, geburtsdatum, adresse_id, telefon, rang) VALUES (:email, :passwort, :vorname, :nachname, :geburtsdatum, :adresse_id, :telefon, :rang)");
 		        $statement->execute(array('email' => 'admin', 'passwort' => $pwAdmin, 'vorname' => 'admin', 'nachname' => 'admin', 'geburtsdatum' => '1900-01-01', 'adresse_id' => 0, 'telefon' => '', 'rang' => 'admin'));

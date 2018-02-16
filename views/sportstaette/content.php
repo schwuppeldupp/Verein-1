@@ -1,38 +1,55 @@
 <div id="seiteninhalt-index">
 <h2>Sportst&auml;tten</h2>
-	<div id="sportstaetten">
-		<form id="save_sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/0" method="POST">
-			<input type="text" id="sporstaette" name="sportstaette" placeholder="neue Sportst&auml;tte hinzuf&uuml;gen">
-			<input type="submit" value="Hinzuf&uuml;gen">
-			<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
-		</form>
-		<form id="del_sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/1" method="POST">
-			<select id="sportstaette" name="sportstaette">
-			<?php
-            foreach ($data as $sportstaette) {
-                echo '<option value="' . $sportstaette['sportstaette_id'] . '">' . $sportstaette['bezeichnung'] . '</option>';
-            }
-            ?>
-			</select>
-			<input type="submit" value="L&ouml;schen">
-			<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
-		</form>
-	</div>
-	<div>
-	<form id="sportstaetten" role="form" action="<?= DIR ?>sportstaette/setzen/2" method="POST">
+	<div id="kurse">
 		<table>
 			<thead>
-				<tr><th>Sportarten</th><th>&Auml;ndern</th><th>L&ouml;schen</th></tr>
+				<tr><th>Sportst&auml;tte</th><th>Strasse</th><th>Hausnummer</th><th>Postleitzahl</th><th>Ort</th><th>Sportart</th><th>&Auml;ndern</th><th>L&ouml;schen</th></tr>
 			</thead>
 			<tbody>
 			<?php
-                foreach ($data as $sportart) {
-                    echo '<tr><th>' . $sportart['bezeichnung'] . '</th><th><input type="submit" name="c_' . $sportart['sportart_id'] . '" value="&#8635;"></th><th><input type="submit" name="d_' . $sportart['sportart_id'] . '" value="&#10006;"></th></tr>';
-                }
-            ?>
+			     foreach ($data['sportstaetten'] as $sportstaette) {
+			         echo '<form id="sportstaette" role="form" action="' . DIR . 'sportstaette/setzen/1" method="POST">' . "\n";
+			         echo '<tr><th><input type="text" name="bezeichnung" value="' . $sportstaette['bezeichnung'] . '"></th>
+                          <th><input type="text" name="strasse" value="' . $sportstaette['strasse'] . '"></th>
+                          <th><input type="text" name="hausnummer" value="' . $sportstaette['hausnummer'] . '"></th>
+                          <th><input type="text" name="postleitzahl" value="' . $sportstaette['postleitzahl'] . '"></th>
+                          <th><input type="text" name="ort" value="' . $sportstaette['ort'] . '"></th>';
+			         echo '</select></th>
+                          <th><select id="sportart" name="sportart">';
+			         foreach ($data['sportarten'] as $sportart) {
+			             if($sportart['sportart_id'] == $sportstaette['sportart_id']){
+			                 echo '<option value="' . $sportart['sportart'] . '" selected>' . $sportart['sportart'] . '</option>';
+			             }
+			             else {
+			                 echo '<option value="' . $sportart['sportart'] . '">' . $sportart['sportart'] . '</option>';
+			             }
+			         } 
+			         
+			         echo '</select></th>
+                          <th><input type="submit" name="change" value="&#8635;"/></th><th><input type="submit" name="delete" value="&#10006;"></th></tr>' . "\n";
+			         echo '<input type="hidden" name="sportstaette_id" value="' . $sportstaette['sportstaette_id'] . '"/>' . "\n";
+			         echo '<input type="hidden" name="adresse_id" value="' . $sportstaette['adresse_id'] . '"/>' . "\n";
+			         echo '<input type="hidden" name="sportart_id" value="' . $sportstaette['sportart_id'] . '"/>' . "\n";
+			         echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '"/>' . "\n";
+			         echo '</form>' . "\n";
+			     }
+			     echo '<form id="sportstaette" role="form" action="' . DIR . 'sportstaette/setzen/0" method="POST">' . "\n";
+                 echo '<tr><th><input type="text" name="bezeichnung" placeholder="neue Sportst&auml;tte hinzuf&uuml;gen"></th>
+                      <th><input type="text" name="strasse" placeholder="Strasse"></th>
+                      <th><input type="text" name="hausnummer" placeholder="Hausnummer"></th>
+                      <th><input type="text" name="postleitzahl" placeholder="Postleitzahl"></th>
+                      <th><input type="text" name="ort" placeholder="Ort"></th>';
+                 echo '</select></th>
+                      <th><select id="sportart" name="sportart">';                    
+                 foreach ($data['sportarten'] as $sportart) {
+                     echo '<option value="' . $sportart['sportart'] . '">' . $sportart['sportart'] . '</option>';
+                 }
+                 echo '</select></th>
+                      <th>Speichern</th><th><input type="submit" name="save" value="&#9654;"></th></tr>' . "\n";
+                 echo '<input type="hidden" name="csrf" value="' . Session::get('csrf_token') . '">' . "\n";
+                 echo '</form>' . "\n";
+                ?>
 			</tbody>
 		</table>
-		<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
-	</form>
 	</div>
 </div>

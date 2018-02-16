@@ -12,10 +12,6 @@ class Session {
     }
     
     public static function set($key, $value) {
-        //if($key ==  'csrf_token') {
-        //    header("X-CSRF-Token: " . $value);
-        //    return $_SESSION[SESSION_PREFIX . $key] = SESSION_PREFIX . $value;
-        //}
         return $_SESSION[SESSION_PREFIX . $key] = $value;
     }
     
@@ -42,7 +38,6 @@ class Session {
     
     public static function destroy() {
         if (self::$_sessionStarted == true) {
-            //header("X-CSRF-Token:");
             session_unset();
             session_destroy();
         }

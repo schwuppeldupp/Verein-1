@@ -11,7 +11,6 @@ class Logger {
     }
     
     public static function exception_handler($e) {
-        //self::newMessage($e);
         self::newMessage(new Exception($e));
         self::customErrorMsg($e);
     }

@@ -42,15 +42,14 @@ class Mitglied extends Controller
             $this->_view->render('footer');
         }
     }
-          
+    
     /**
-     * Rendert Seite fuer Impressum.
+     * Rendert Angebotsseite.
      */
-    public function impressum()
+    public function angebot()
     {
         $url = explode("/", $_GET['url']);
         
-        //if(array_pop($url) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -59,38 +58,99 @@ class Mitglied extends Controller
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
             
+            $sportart = array_pop($url);
+           
+            $data['title'] = '&Uuml;bersicht';
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
             $data['sportarten'] = $this->_common->getSportarten();
             $this->_view->render('member/navigation', $data);
+            $data['vorstand'] = $this->_common->getVorstand();
             
+            $data['kurse'] = array();
+            
+            $buchungen = $this->_model->getBuchungen(Session::get('mitglied_id'));
+            
+            if ($sportart == 'angebot')
+            { 
+                $kurse = $this->_model->getKurse(Session::get('mitglied_id'));
+            }
+            else {
+                $kurse = $this->_model->getKurseBySportart($sportart);
+            }
+            
+            
+            if (empty($buchungen)) {
+                $data['kurse'] = $kurse;
+            }
+            else {
+                foreach ($buchungen as $buchung) {
+                    for ($i = 0; $i < count($kurse); $i++) {
+                        if($buchung['kurs_id']  == $kurse[$i]['kurs_id']) {
+                            //echo print_r($kurse[$i]);
+                            $kurse[$i]['is_gebucht'] = '1';
+                        }
+                        else {
+                            $kurse[$i]['is_gebucht'] = '0';
+                        }
+                        $data['kurse'][$i] = $kurse[$i];
+                    }
+                }
+            } 
+          
+            $this->_view->render('member/angebot', $data);
+            $this->_view->render('footer');
+        }        
+    }
+          
+    /**
+     * Rendert Seite fuer Impressum.
+     */
+    public function impressum()
+    {
+        $url = explode("/", $_GET['url']);
+        
+        if(!Session::get('csrf_token')) {
+            Session::destroy();
+            Session::set('csrf_token', uniqid('', true));
+            header("Location: " . DIR . "mainpage/safety");
+        }
+        else {
+            Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
+            
+            $data['vorstand'] = $this->_common->getVorstand();
+            $this->_view->render('header', $data);
+            $this->_view->render('member/login', $data);
+            $data['sportarten'] = $this->_common->getSportarten();
+            $this->_view->render('member/navigation', $data);
+
             switch (array_pop($url)) {
                 case 'vorstand':
                     $data['vorstand'] = $this->_common->getVorstand();
                     $this->_view->render('public/vorstand', $data);
                     break;
                 case 'mitglieder':
-                    $this->_view->render('member/content', $data);
+                    $data['Mitgliederzahl'] = $this->_common->countMitglieder() + $this->_common->countVorstand();
+                    $this->_view->render('public/mitglieder', $data);
                     break;
                 case 'kontakt':
-                    $this->_view->render('member/content', $data);
+                    $this->_view->render('public/kontakt', $data);
                     break;
                 default:
-                    $this->_view->render('member/content', $data);
+                    $data['Mitgliederzahl'] = $this->_common->countMitglieder() + $this->_common->countVorstand();
+                    $data['Vorstandsanzahl'] = $this->_common->countVorstand();
+                    $this->_view->render('public/impressum', $data);
                     break;
             }
             $this->_view->render('footer');
-            
-            //header("X-CSRF-Token: " . Session::get('csrf_token'));           
         }
     }
-        
+    
     /**
-     * Rendert Seite fuer Impressum Vorstand.
-     */ 
-    public function impressum2()
+     * Rendert Seite fuer Impressum.
+     */
+    public function Vereinsdaten()
     {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -104,7 +164,7 @@ class Mitglied extends Controller
             $this->_view->render('member/login', $data);
             $data['sportarten'] = $this->_common->getSportarten();
             $this->_view->render('vorstand/navigation', $data);
-            //$this->_view->render('vorstand/content', $data);
+            $this->_view->render('vorstand/impressum', $data);
             $this->_view->render('footer');
         }
     }
@@ -114,7 +174,6 @@ class Mitglied extends Controller
      */
     public function buchung()
     {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -128,53 +187,20 @@ class Mitglied extends Controller
             $this->_view->render('member/login', $data);
             $data['sportarten'] = $this->_common->getSportarten();
             $this->_view->render('member/navigation', $data);
-            //$data['kurse'] = $this->_common->getKurse();
-            $data['kurse'] = $this->_model->getKurse();
+
+            $data['kurse'] = $this->_model->getKurseByBuchung(Session::get('mitglied_id'));
             
-            //$kurs['beginn'] = $kurs['datum']  . ' ' . $kurs['beginn'];
-            //$kurs['ende'] = $kurs['datum']  . ' ' . $kurs['ende'];
             $this->_view->render('member/buchung', $data);
-            //test
-            //echo end(explode("/", $_GET['url'])) . '</br>';
             $this->_view->render('footer');
         }
     }
-    
-    /**
-     * Rendert Seite fuer Buchung.
-     */
-    public function buchung2()
-    {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
-        if(!Session::get('csrf_token')) {
-            Session::destroy();
-            Session::set('csrf_token', uniqid('', true));
-            header("Location: " . DIR . "mainpage/safety");
-        }
-        else {
-            Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
-            
-            $data['vorstand'] = $this->_common->getVorstand();
-            $this->_view->render('header', $data);
-            $this->_view->render('member/login', $data);
-            $this->_view->render('vorstand/navigation', $data);
-            
-            $this->_view->render('vorstand/buchung', $data);
-            $this->_view->render('footer');
-        }
-    }
-    
+              
     /**
      * Rendert Seite fuer Registration
      * Nach erfolgreicher bzw. erfolgloser Registrierung wird Session beendet.
      */
     public function registration()
     {
-        /*if($_POST['csrf'] !== Session::get('csrf_token')) {
-            Session::destroy();
-            Session::set('csrf_token', uniqid('', true));
-            header("Location: " . DIR . "mainpage/registrationerror");
-        }*/
         if(hash_equals($_POST['csrf'], Session::get('csrf_token'))) {
         if($_POST['register']) {
             $user = $_POST['register'];
@@ -277,7 +303,6 @@ class Mitglied extends Controller
                 
                     Session::set('name', $user[0]['vorname'] . " " .$user[0]['nachname']);
                     Session::set('mitglied_id', $user[0]['mitglied_id']);
-                    //self::index();
                     header("Location: " . DIR . "mitglied/index");
                 }
                 else {

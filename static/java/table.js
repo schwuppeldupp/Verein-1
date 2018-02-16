@@ -1,9 +1,14 @@
 /**
 * Läd Beschreibung des ersten Elements in der Liste beim Laden.
 */
-window.onload = function(){
-	document.getElementById("content").innerHTML = document.querySelectorAll('div[id^="tr_"]')[0].children[5].innerHTML;
-	//console.log(document.querySelectorAll('div[id^="tr_"]')[0].children[5].innerHTML);
+window.onload = function(){	
+	
+	if (document.getElementsByClassName('tr').length > 0) {
+		document.getElementById("content").innerHTML = document.querySelectorAll('div[id^="tr_"]')[0].children[5].innerHTML;
+	}
+	else {
+		document.getElementById("content").innerHTML = "Sie haben noch keine Kurse gebucht! Aktuelle Kurse finden Sie unter Angebote.";
+	}
 }
 
 /**

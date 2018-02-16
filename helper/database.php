@@ -42,7 +42,6 @@ class Database extends PDO {
         $fieldNames = implode(',', array_keys($data));
         $fieldValues = ':' . implode(', :', array_keys($data));
 
-        //$stmt = $this->prepare("INSERT INTO $table ($fieldNames) VALUES ($fieldValues)");
         $stmt = $this->prepare("INSERT INTO $table ($fieldNames) VALUES ($fieldValues)" . ($dublicate == '' ? "" : " ON DUPLICATE KEY UPDATE $dublicate"));
         
         foreach ($data as $key => $value) {

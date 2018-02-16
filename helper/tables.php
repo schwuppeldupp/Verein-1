@@ -62,6 +62,7 @@ class Tables {
                     `maxteilnehmer` INT NOT NULL,
                     `mitglied_id` INT(10) NOT NULL,
                     `sportart_id` INT(10) NOT NULL,
+                    `sportstaette_id` INT(10) NOT NULL,
                     `beginn` DATETIME NOT NULL,
                     `ende` DATETIME NOT NULL,
                     `beschreibung` TEXT(1000)
@@ -75,6 +76,21 @@ class Tables {
                     `mitglied_id` INT(10) NOT NULL,
                     `kurs_id` INT(10) NOT NULL,
                     `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                    )
+                    ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci";
+    }
+    
+    public function getImpressum() {
+        return "CREATE TABLE IF NOT EXISTS `impressum` (
+                    `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    `adresse` VARCHAR(255) NOT NULL,
+                    `telefon` VARCHAR(255) NOT NULL,
+                    `fax` VARCHAR(255) NOT NULL,
+                    `email` VARCHAR(255) NOT NULL,
+                    `registergericht` VARCHAR(255) NOT NULL,
+                    `registernummer` VARCHAR(255) NOT NULL,
+                    `identifikationsnummer` VARCHAR(255) NOT NULL,
+                    `wirtschaftsidentifikationsnummer` VARCHAR(255) NOT NULL
                     )
                     ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci";
     }

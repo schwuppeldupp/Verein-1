@@ -13,7 +13,6 @@ class Sportarten extends Controller
      */
     public function index()
     {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -37,7 +36,6 @@ class Sportarten extends Controller
      */
     public function impressum()
     {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -50,7 +48,6 @@ class Sportarten extends Controller
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
             $this->_view->render('vorstand/navigation', $data);
-            //$this->_view->render('vorstand/content', $data);
             $this->_view->render('footer');
         }
     }
@@ -60,7 +57,6 @@ class Sportarten extends Controller
      */
     public function buchung()
     {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -73,7 +69,6 @@ class Sportarten extends Controller
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
             $this->_view->render('vorstand/navigation', $data);
-            //$this->_view->render('vorstand/content', $data);
             $this->_view->render('footer');
         }
     }
@@ -83,7 +78,6 @@ class Sportarten extends Controller
      */
     public function angebot()
     {
-        //if(end(explode("/", $_GET['url'])) !== Session::get('csrf_token')) {
         if(!Session::get('csrf_token')) {
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
@@ -92,7 +86,6 @@ class Sportarten extends Controller
         else {
             Message::set(Session::get('rang') == 'Vorstand' ? Session::get('name').'<dir>Vorstand</dir>': Session::get('name'));
             
-            //$data['vorstand'] = $this->_common->getVorstand();
             $data = $this->_common->getSportarten();
             $this->_view->render('header', $data);
             $this->_view->render('member/login', $data);
@@ -123,7 +116,6 @@ class Sportarten extends Controller
                         break;
                     case 1:
                         if($_POST['change']) {
-                            //$this->_model->updateSportart($_POST['sportart_id'], $_POST['sportart'], $_POST['beschreibung']);
                             $this->_model->changeSportart($_POST['sportart_id'], $_POST['sportart'], $_POST['beschreibung']);
                             header("Location: " . DIR . "sportarten/angebot");
                         }
