@@ -7,7 +7,7 @@ class Mainpage_Model extends Model {
     }
              
     /**
-     * Gibt einzelnes Mitglied anhand der mitglied_id zurück.
+     * Gibt einzelnes Mitglied anhand der mitglied_id zurÃ¼ck.
      * @param string $mitglied_id Id des Mitglieds
      * @return array Liste mit Daten des Mitglieds in Form von array[0][daten]
      */
@@ -16,7 +16,7 @@ class Mainpage_Model extends Model {
     }
     
     /**
-     * Gibt einzelne Sportart anhand der sportart_id zurück.
+     * Gibt einzelne Sportart anhand der sportart_id zurÃ¼ck.
      * @param string $sportart_id Id der Sportart
      * @return array Liste der Sportart
      */
@@ -25,7 +25,7 @@ class Mainpage_Model extends Model {
     }
     
     /**
-     * Gibt alle Kurse zurück + Kursleiter + Sportart zurück.
+     * Gibt alle Kurse zurÃ¼ck + Kursleiter + Sportart zurÃ¼ck.
      * @return array Liste der Kurse
      */
     public function getKurse() {       
@@ -34,10 +34,22 @@ class Mainpage_Model extends Model {
     
     /**
      * Gibt alle Kurse fuer eine Sportart zurueck.
-     * @return array Liste mit allen Eintraegen für Sportart
+     * @return array Liste mit allen Eintraegen fÃ¼r Sportart
      */
-    public function getKurseBySportart($sportart_id) {     
+    public function getKurseBySportart2($sportart_id) {     
         return $this->_db->select('SELECT mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung, kurse.* FROM kurse JOIN sportarten USING (sportart_id) JOIN sportstaette USING (sportart_id) JOIN mitglied USING (mitglied_id) WHERE sportart_id = :sportart_id', array('sportart_id' => $sportart_id));
+    }
+    
+    /**
+     * Gibt alle Kurse fuer eine Sportart zurueck.
+     * @return array Liste mit allen Eintraegen fÃ¼r Sportart
+     */
+    public function getKurseBySportart($sportart_id) {
+        return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung FROM kurse
+                                    JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
+                                    JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
+                                    JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id
+                                    WHERE kurse.sportart_id = :sportart_id', array('sportart_id' => $sportart_id));
     }
 }
 
