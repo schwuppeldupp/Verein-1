@@ -29,5 +29,4 @@
 	</ul>
 	<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
 	</form>
-	<script type="text/javascript" src="<?= URL::JAVA('formular') ?>"></script> 
 </div>  
