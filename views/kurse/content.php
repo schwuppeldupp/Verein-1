@@ -77,7 +77,7 @@
                             <th><input type="time" name="ende"></th>
                             <th><input type="text" name="beschreibung" placeholder="Beschreibung"></th>';
                     echo '</select></th>
-                            <th><select id="sportstaette" name="sportstaette">';
+                            <th><select id="sportstaette" name="bezeichnung">';
                     foreach ($data['sportstaetten'] as $sportstaette) {
                         echo '<option value="' . $sportstaette['bezeichnung'] . '">' . $sportstaette['bezeichnung'] . '</option>';
                     }
