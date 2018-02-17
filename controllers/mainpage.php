@@ -97,6 +97,7 @@ class Mainpage extends Controller
         $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('public/registration', $data);
+        //$this->_view->render('public/message');
         $this->_view->render('footer');
     }
     
@@ -137,7 +138,7 @@ class Mainpage extends Controller
                 Message::set('Die Mailadresse wird bereits verwendet!');
                 break;
             case 3:
-                Message::set('Passwörter stimmen nicht überein!');
+                Message::set('PasswÃ¶rter stimmen nicht Ã¼berein!');
                 break;
             case 4:
                 Message::set('Die Mailadresse ist ung&uuml;ltig!');
@@ -165,8 +166,8 @@ class Mainpage extends Controller
     }
     
     /**
-     * Weiterleitung zur Indexseite bei ungültiger Session.
-     * Schutz vor csfr -  Website-übergreifende Anfragenfälschung.
+     * Weiterleitung zur Indexseite bei ungÃ¼ltiger Session.
+     * Schutz vor csfr -  Website-Ã¼bergreifende AnfragenfÃ¤lschung.
      */
     public function safety()
     {
