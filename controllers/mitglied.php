@@ -70,16 +70,16 @@ class Mitglied extends Controller
             $data['kurse'] = array();
             
             $buchungen = $this->_model->getBuchungen(Session::get('mitglied_id'));
-            
+                      
             if ($sportart == 'angebot')
             { 
-                $kurse = $this->_model->getKurse(Session::get('mitglied_id'));
+                //$kurse = $this->_model->getKurse(Session::get('mitglied_id'));
+                $kurse = $this->_model->getAllKurse();
             }
             else {
                 $kurse = $this->_model->getKurseBySportart($sportart);
             }
-            
-            
+
             if (empty($buchungen)) {
                 $data['kurse'] = $kurse;
             }
@@ -87,11 +87,10 @@ class Mitglied extends Controller
                 foreach ($buchungen as $buchung) {
                     for ($i = 0; $i < count($kurse); $i++) {
                         if($buchung['kurs_id']  == $kurse[$i]['kurs_id']) {
-                            //echo print_r($kurse[$i]);
                             $kurse[$i]['is_gebucht'] = '1';
                         }
-                        else {
-                            $kurse[$i]['is_gebucht'] = '0';
+                        else {                            
+                            $kurse[$i]['is_gebucht'] = '0';                        
                         }
                         $data['kurse'][$i] = $kurse[$i];
                     }
@@ -250,13 +249,13 @@ class Mitglied extends Controller
                     header("Location: " . DIR . "mainpage/registrationerror/2");
                 }
             }
-            else { //Eingabe unvollständig
+            else { //Eingabe unvollstÃ¤ndig
                 Session::destroy();
                 Session::set('csrf_token', uniqid('', true));
                 header("Location: " . DIR . "mainpage/registrationerror/1");
             }           
         }
-        else { //Fehler in Übermittlung
+        else { //Fehler in Ãœbermittlung
             Session::destroy();
             Session::set('csrf_token', uniqid('', true));
             header("Location: " . DIR . "mainpage/registrationerror/0");
@@ -320,7 +319,7 @@ class Mitglied extends Controller
     } 
     
     /**
-     * Test, ob Eintrag für Login leer ist
+     * Test, ob Eintrag fÃ¼r Login leer ist
      */
     function checkRegistration($user)
     { 
