@@ -128,7 +128,7 @@ class Mitglied_Model extends Model {
                                     JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
                                     JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
                                     JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id 
-                                    LEFT JOIN buchungen ON kurse.kurs_id = buchungen.kurs_id');
+                                    Left JOIN buchungen ON kurse.kurs_id = buchungen.kurs_id');
                                     //WHERE buchungen.kurs_id IS NULL OR buchungen.mitglied_id <> :actual_id', array('actual_id' => $actual_id));
     }
     
@@ -136,11 +136,24 @@ class Mitglied_Model extends Model {
      * Gibt alle Kurse fuer eine Sportart zurueck.
      * @return array Liste mit allen Eintraegen für Sportart
      */
-    public function getKurseBySportart($sportart_id) {
+    public function getKurseBySportart2($sportart_id) {
         return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung FROM kurse
                                     JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
                                     JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
                                     JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id 
+                                    WHERE kurse.sportart_id = :sportart_id', array('sportart_id' => $sportart_id));
+    }
+    
+    /**
+     * Gibt alle Kurse fuer eine Sportart zurueck.
+     * @return array Liste mit allen Eintraegen für Sportart
+     */
+    public function getKurseBySportart($sportart_id) {
+        return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung, buchungen.buchungs_id, buchungen.mitglied_id AS gebucht FROM kurse
+                                    JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
+                                    JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
+                                    JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id
+                                    LEFT JOIN buchungen ON kurse.kurs_id = buchungen.kurs_id
                                     WHERE kurse.sportart_id = :sportart_id', array('sportart_id' => $sportart_id));
     }
     
