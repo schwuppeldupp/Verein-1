@@ -136,7 +136,7 @@ class Mitglied_Model extends Model {
      * Gibt alle Kurse fuer eine Sportart zurueck.
      * @return array Liste mit allen Eintraegen für Sportart
      */
-    public function getKurseBySportart2($sportart_id) {
+    public function getKurseBySportart($sportart_id) {
         return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung FROM kurse
                                     JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
                                     JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
@@ -148,7 +148,7 @@ class Mitglied_Model extends Model {
      * Gibt alle Kurse fuer eine Sportart zurueck.
      * @return array Liste mit allen Eintraegen für Sportart
      */
-    public function getKurseBySportart($sportart_id) {
+    public function getKurseBySportart2($sportart_id) {
         return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung, buchungen.buchungs_id, buchungen.mitglied_id AS gebucht FROM kurse
                                     JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
                                     JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
