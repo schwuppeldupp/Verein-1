@@ -13,7 +13,7 @@ class Mainpage extends Controller
      */
     public function index()
     {
-        Session::set('csrf_token', uniqid('', true));
+        //Session::set('csrf_token', uniqid('', true));
 
         $data['title'] = '&Uuml;bersicht';       
         $this->_view->render('header', $data);
@@ -90,7 +90,9 @@ class Mainpage extends Controller
      * Rendert Seite fuer Registrierung.
      */
     public function register()
-    {        
+    {  
+        Session::set('csrf_token', uniqid('', true));
+        
         $data['title'] = 'Registrierung'; 
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
