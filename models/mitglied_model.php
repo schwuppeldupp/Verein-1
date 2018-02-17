@@ -7,16 +7,17 @@ class Mitglied_Model extends Model {
     }
     
     /**
-     * Gibt Buchungen eines Mitglied zurück.
+     * Gibt Buchungen eines Mitglied zurÃ¼ck.
      * @param string $actual_id ID des Mitglieds
      * @return array Liste mit Daten des Mitglieds in Form von array[0][daten]
      */
     public function getBuchungen($actual_id) {
-        return $this->_db->select('SELECT * FROM buchungen WHERE mitglied_id = :mitglied_id', array('mitglied_id' =>  $actual_id));
+        //return $this->_db->select('SELECT * FROM buchungen WHERE mitglied_id = :mitglied_id', array('mitglied_id' =>  $actual_id));       
+        return $this->_db->select('SELECT DISTINCT buchungs_id, kurs_id, mitglied_id FROM buchungen WHERE mitglied_id = :mitglied_id', array('mitglied_id' =>  $actual_id));
     }
     
     /**
-     * Gibt Admin anhand der e-mail zurück.
+     * Gibt Admin anhand der e-mail zurÃ¼ck.
      * @param string Anmeldename des Admins
      * @return array Liste mit Daten des Admins
      */
@@ -26,7 +27,7 @@ class Mitglied_Model extends Model {
     }
     
     /**
-     * Gibt einzelnes Mitglied anhand der e-mail zurück.
+     * Gibt einzelnes Mitglied anhand der e-mail zurÃ¼ck.
      * @param string $email e-mail des Mitglieds
      * @return array Liste mit Daten des Mitglieds in Form von array[0][daten]
      */
@@ -37,7 +38,7 @@ class Mitglied_Model extends Model {
     /**
      * Schreibt Daten fuer einzelnes Mitglied.
      * @param  array $data Daten des Mitglieds + Rang, 
-     * e-mail, passwort als hash, Vorname, Nachname, Geburtsdatum, Adress-ID als Fremdschlüssel für Adresse, Telefonnummer, Rang
+     * e-mail, passwort als hash, Vorname, Nachname, Geburtsdatum, Adress-ID als FremdschlÃ¼ssel fÃ¼r Adresse, Telefonnummer, Rang
      * @return array Liste des Mitglieds
      */
     public function setRegistration($data) {      
@@ -48,10 +49,10 @@ class Mitglied_Model extends Model {
     }
     
     /**
-     * Gibt für ein Mitglied alle Daten + komplette Adresse zurück
+     * Gibt fÃ¼r ein Mitglied alle Daten + komplette Adresse zurÃ¼ck
      * @param  array $data e-mail des Mitglieds
      * @return array Liste mit ID in Form von array[0][daten], 
-     * Inner Join über Tabelle mitglied, adresse und postleitzahl
+     * Inner Join Ã¼ber Tabelle mitglied, adresse und postleitzahl
      */
     public function joinMitglied($data) {
         return $this->_db->select('SELECT mitglied.*, adresse.strasse, adresse.hausnummer, adresse.postleitzahl, postleitzahl.ort FROM mitglied JOIN adresse USING (adresse_id) JOIN postleitzahl USING (postleitzahl) WHERE email = :email',
@@ -59,9 +60,9 @@ class Mitglied_Model extends Model {
     }
         
     /**
-     * Gibt für alle Mitglieder alle Daten + komplette Adresse nach Nachnamen sortiert zurück
+     * Gibt fÃ¼r alle Mitglieder alle Daten + komplette Adresse nach Nachnamen sortiert zurÃ¼ck
      * @return array Liste mit ID in Form von array[0][daten], 
-     * Inner Join über Tabelle mitglied, adresse und postleitzahl
+     * Inner Join Ã¼ber Tabelle mitglied, adresse und postleitzahl
      */
     public function joinMitglieder() {
         return $this->_db->select('SELECT mitglied.*, adresse.strasse, adresse.hausnummer, adresse.postleitzahl, postleitzahl.ort FROM mitglied JOIN adresse USING (adresse_id) JOIN postleitzahl USING (postleitzahl) ORDER BY mitglied.nachname',
@@ -70,8 +71,8 @@ class Mitglied_Model extends Model {
     
     /**
      * Schreibt Adresse.
-     * @param  array $data Daten für die Adresse: 
-     * Adress-ID, Strasse, Hausnummer, Postleitzahl als Fremdschlüssel
+     * @param  array $data Daten fÃ¼r die Adresse: 
+     * Adress-ID, Strasse, Hausnummer, Postleitzahl als FremdschlÃ¼ssel
      * @return array Liste des Mitglieds
      */
     public function setAdresse($data) {
@@ -80,7 +81,7 @@ class Mitglied_Model extends Model {
     }
     
     /**
-     * Gibt Adresse zurück, wenn Strasse Hausnummer und Postleitzahl übereinstimmen.
+     * Gibt Adresse zurÃ¼ck, wenn Strasse Hausnummer und Postleitzahl Ã¼bereinstimmen.
      * @param  array $data Daten des Mitglieds
      * @return array Liste mit ID in Form von array[0][daten]
      */
@@ -90,7 +91,7 @@ class Mitglied_Model extends Model {
     }
 
     /**
-     * Gibt letzte Adresse-ID zurück.
+     * Gibt letzte Adresse-ID zurÃ¼ck.
      * @param  array $data Daten des Mitglieds
      * @return array Liste mit ID in Form von array[0][daten]
      */
@@ -100,48 +101,59 @@ class Mitglied_Model extends Model {
     
     /**
      * Schreibt Postleitzahl mit Ort.
-     * @param  array $data Daten für die Postleitzahl mit Ort:
+     * @param  array $data Daten fÃ¼r die Postleitzahl mit Ort:
      * @return array Liste des Mitglieds
      */
     public function setPostleitzahl($data) {
         $this->_db->insert('postleitzahl', array('postleitzahl' => $data['postleitzahl'], 'ort' => $data['ort']), 'postleitzahl = postleitzahl');
     }
+       
+    /**
+     * Gibt alle Kurse zurÃ¼ck.
+     * @return array Liste der Kurse
+     */
+    public function getAllKurse() {
+        return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung FROM kurse
+                                    JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
+                                    JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
+                                    JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id');
+    }
     
     /**
-     * Gibt alle Kurse zurück + Kursleiter + Sportart zurück.
+     * Gibt alle Kurse zurÃ¼ck + Kursleiter + Sportart zurÃ¼ck.
      * @return array Liste der Kurse
      */
     public function getKurse($actual_id) {
         return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung, buchungen.buchungs_id, buchungen.mitglied_id AS gebucht FROM kurse
                                     JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
                                     JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
-                                    JOIN sportstaette ON kurse.sportart_id = sportstaette.sportart_id
+                                    JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id 
                                     LEFT JOIN buchungen ON kurse.kurs_id = buchungen.kurs_id');
                                     //WHERE buchungen.kurs_id IS NULL OR buchungen.mitglied_id <> :actual_id', array('actual_id' => $actual_id));
     }
     
     /**
      * Gibt alle Kurse fuer eine Sportart zurueck.
-     * @return array Liste mit allen Eintraegen für Sportart
+     * @return array Liste mit allen Eintraegen fÃ¼r Sportart
      */
     public function getKurseBySportart($sportart_id) {
-        return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung, buchungen.buchungs_id, buchungen.mitglied_id AS gebucht FROM kurse
+        return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung FROM kurse
                                     JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
                                     JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
-                                    JOIN sportstaette ON kurse.sportart_id = sportstaette.sportart_id
-                                    LEFT JOIN buchungen ON kurse.kurs_id = buchungen.kurs_id WHERE kurse.sportart_id = :sportart_id', array('sportart_id' => $sportart_id));
+                                    JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id 
+                                    WHERE kurse.sportart_id = :sportart_id', array('sportart_id' => $sportart_id));
     }
     
     
     /**
      * Gibt alle Buchungen fuer ein Mitglied zurueck.
-     * @return array Liste mit allen Eintraegen für Sportart
+     * @return array Liste mit allen Eintraegen fÃ¼r Sportart
      */
     public function getKurseByBuchung($actual_id) {
         return $this->_db->select('SELECT kurse.*, mitglied.vorname, mitglied.nachname, sportarten.sportart, sportstaette.bezeichnung, buchungen.buchungs_id, buchungen.mitglied_id AS gebucht FROM kurse
                                     JOIN mitglied ON kurse.mitglied_id = mitglied.mitglied_id
                                     JOIN sportarten ON kurse.sportart_id = sportarten.sportart_id
-                                    JOIN sportstaette ON kurse.sportart_id = sportstaette.sportart_id
+                                    JOIN sportstaette ON kurse.sportstaette_id = sportstaette.sportstaette_id 
                                     JOIN buchungen ON kurse.kurs_id = buchungen.kurs_id WHERE buchungen.mitglied_id = :actual_id', array('actual_id' => $actual_id));
     }
 }
