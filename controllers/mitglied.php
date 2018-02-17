@@ -89,14 +89,15 @@ class Mitglied extends Controller
                         if($buchung['kurs_id']  == $kurse[$i]['kurs_id']) {
                             $kurse[$i]['is_gebucht'] = '1';
                         }
-                        else {                            
-                            $kurse[$i]['is_gebucht'] = '0';                        
+                        else {   
+                            if($kurse[$i]['is_gebucht'] != '1') {
+                                $kurse[$i]['is_gebucht'] = '0';    
+                            }                      
                         }
                         $data['kurse'][$i] = $kurse[$i];
                     }
                 }
             } 
-          
             $this->_view->render('member/angebot', $data);
             $this->_view->render('footer');
         }        
