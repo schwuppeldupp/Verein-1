@@ -13,7 +13,7 @@ class Mainpage extends Controller
      */
     public function index()
     {
-        //Session::set('csrf_token', uniqid('', true));
+        Session::set('csrf_token', uniqid('', true));
 
         $data['title'] = '&Uuml;bersicht';       
         $this->_view->render('header', $data);
@@ -30,6 +30,8 @@ class Mainpage extends Controller
      */
     public function angebot()
     {
+        Session::set('csrf_token', uniqid('', true));
+        
         $url = explode("/", $_GET['url']);       
         $sportart = array_pop($url);
         
@@ -56,7 +58,9 @@ class Mainpage extends Controller
      * Rendert Seite fuer Impressum.
      */
     public function impressum()
-    {        
+    {
+        Session::set('csrf_token', uniqid('', true));
+        
         $url = explode("/", $_GET['url']);
         
         $data['vorstand'] = $this->_common->getVorstand();
@@ -99,7 +103,7 @@ class Mainpage extends Controller
         $data['sportarten'] = $this->_common->getSportarten();
         $this->_view->render('public/navigation', $data);
         $this->_view->render('public/registration', $data);
-        //$this->_view->render('public/message');
+        $this->_view->render('public/message');
         $this->_view->render('footer');
     }
     
@@ -108,6 +112,8 @@ class Mainpage extends Controller
      */
     public function loginerror()
     {
+        Session::set('csrf_token', uniqid('', true));
+        
         $data['title'] = '&Uuml;bersicht';
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
@@ -123,6 +129,8 @@ class Mainpage extends Controller
      */
     public function registrationerror()
     {
+        Session::set('csrf_token', uniqid('', true));
+        
         $data['title'] = 'Registrierung';
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
@@ -159,6 +167,8 @@ class Mainpage extends Controller
      */
     public function registrationsuccess()
     {
+        Session::set('csrf_token', uniqid('', true));
+        
         $this->_view->render('header', $data);
         $this->_view->render('public/login', $data);
         $data['sportarten'] = $this->_common->getSportarten();
