@@ -26,7 +26,7 @@ return(false);
 
 }
 
-if (document.forms["registrierung"].hausnr.value=="") {
+if (document.forms["registrierung"].hausnummer.value=="") {
 
 alert('Bitte geben Sie eine Hausnummer an!')
 
@@ -36,7 +36,7 @@ return(false);
 
 if (!validPlz(document.forms["registrierung"].plz.value)) {
 
-alert('Bitte geben Sie eine korrekte Postleitzahl ein (5 Stellen!');
+alert('Bitte geben Sie eine korrekte Postleitzahl ein (5 Stellen!)');
    
 return(false);   
 
@@ -74,14 +74,6 @@ return(false);
 
 } 
   
-if (document.forms["registrierung"].benutzername.value=="") {
-
-alert('Bitte geben Sie einen Benutzernamen an!');
-
-return(false);
-
-}
-
 if (!validPasswort1(document.forms["registrierung"].passwort1.value)) {
 
 alert('Ihr Passwort ist nicht sicher!');
@@ -142,4 +134,80 @@ function validTel(telNr) {
 
 }
 
+}
+
+
+
+
+/* Passwort1 und Passwort2 auf Gleichheit prüfen */
+
+var passwort1 = document.getElementById('passwort1');
+var passwort2 = document.getElementById('passwort2');
+
+var checkPasswordValidity = function() {
+    if (passwort1.value != passwort2.value) {
+        passwort2.setCustomValidity('Passwörter müssen übereinstimmen!');
+    } else {
+        passwort2.setCustomValidity('');
+    }        
+};
+
+passwort1.addEventListener('change', checkPasswordValidity);
+passwort2.addEventListener('change', checkPasswordValidity);
+
+
+
+// Sobald der Nutzer das Passwort1-Feld anklickt, erscheint der Kriterienkatalog
+myInput.onfocus = function() {
+    document.getElementById("message").style.display = "block";
+}
+
+// Sobald der Nutzer außerhalb des Passwort1-Feldes klickt, verschwindet der Kriterienkatalog wieder
+myInput.onblur = function() {
+    document.getElementById("message").style.display = "none";
+}
+
+// Überprüfung sobald der Nutzer etwas eintippt
+myInput.onkeyup = function() {
+
+  // Überprüfung Kleinbuchstaben
+  var lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {  
+    letter.classList.remove("invalid");
+    letter.classList.add("valid");
+  } else {
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+  }
+  
+  // Überprüfung Großbuchstaben´
+  var upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {  
+    capital.classList.remove("invalid");
+    capital.classList.add("valid");
+  } else {
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+  }
+    
+  
+  // Überpfügung Zahl
+  var numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {  
+    number.classList.remove("invalid");
+    number.classList.add("valid");
+  } else {
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+  }
+  
+  // Überprüfung Passwortlänge
+  if(myInput.value.length >= 8) {
+    length.classList.remove("invalid");
+    length.classList.add("valid");
+  } else {
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+  }
+  
 }
