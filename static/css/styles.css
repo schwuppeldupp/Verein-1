@@ -1,4 +1,4 @@
-/*seitenübergreifende Formatierung */
+/*seitenÃ¼bergreifende Formatierung */
 body {background-color: #996633;}
 
 #seite {width:1300px;  margin:0px auto; background:#669900; overflow:hidden; border-radius: 5px;}
@@ -116,11 +116,11 @@ article.infobox section:target h2 a {
 table, th, td {border: 1px solid black; border-collapse: collapse; padding: 0.3em; margin: auto;}
 thead {border: 2px solid black; color: white;}
 
-/* Streifen für Kopf */
+/* Streifen fÃ¼r Kopf */
 thead:nth-child(odd) > tr:nth-child(odd) {background-color: #800000;}
-/* Streifen für gerade Zeilen */
+/* Streifen fÃ¼r gerade Zeilen */
 tbody:nth-child(even) > tr:nth-child(even) {background-color: #d2cfcf;}
-/* Streifen für ungerade Zeilen */
+/* Streifen fÃ¼r ungerade Zeilen */
 tbody:nth-child(even) > tr:nth-child(odd) {background-color: #fff;}
 select {width: 200px;}
 
@@ -128,7 +128,6 @@ select {width: 200px;}
 #save_sportarten > input#submit {margin-left: 55px;}
 #save_sportarten > textarea {display: flex;}
 #del_sportarten > input {width: 85px;}
-
 
 
 /* Kriterienbox Passwort */
@@ -145,7 +144,7 @@ select {width: 200px;}
     padding: 10px 35px;
     font-size: 18px;
 }
-/* Anzeige Kriterium erfüllt */
+/* Anzeige Kriterium erfÃ¼llt */
 .valid {
     color: green;
 }
@@ -153,10 +152,10 @@ select {width: 200px;}
 .valid:before {
     position: relative;
     left: -35px;
-    content: "+";
+    content: "âœ”";
 }
 
-/* Anzeige Kriterium noch nicht erfüllt */
+/* Anzeige Kriterium noch nicht erfÃ¼llt */
 .invalid {
     color: red;
 }
@@ -164,6 +163,5 @@ select {width: 200px;}
 .invalid:before {
     position: relative;
     left: -35px;
-    content: "-";
+    content: "âœ–";
 }
-
