@@ -14,7 +14,7 @@
 		<li>Registrierung abschlie&szlig;en </li>
 	</ol>
 	</div>
-	<form id="registrierung" role="form" action="<?= DIR ?>mitglied/registration/<?= Session::get('csrf_token') ?>" method="POST">
+	<form id="registrierung" role="form" action="<?= DIR ?>mitglied/registration/<?= Session::get('csrf_token') ?>" onsubmit="return checkFormular()" method="POST">
 	<ul style="list-style-type: none">
 		<li><input type="text" id="nachname" name="register[nachname]" placeholder="Nachname"></li>
 		<li><input type="text" id="vorname" name="register[vorname]" placeholder="Vorname"></li>
@@ -29,4 +29,17 @@
 	</ul>
 	<input type="hidden" name="csrf" value="<?= Session::get('csrf_token') ?>">
 	</form>
+	
+	<script type="text/javascript" src="<?= URL::JAVA('formular') ?>"></script>
+
 </div>  
+
+
+<div id="message">
+  <h3>Das Password muss folgende Kriterien erfüllen:</h3>
+	<p id="letter" class="invalid">mindestens einen <b>Kleinbuchstaben</b>!</p>
+	<p id="capital" class="invalid">mindestens einen <b>Großbuchstaben</b>!</p>
+	<p id="number" class="invalid">mindestens eine <b>Zahl</b>!</p>
+	<p id="length" class="invalid">mindestens <b>acht Ziffern</b>!</p>
+</div>
+
